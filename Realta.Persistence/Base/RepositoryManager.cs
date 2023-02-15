@@ -15,6 +15,9 @@ namespace Realta.Persistence.Base
         private AdoDbContext _adoContext;
         private IUsersRepository _usersRepository;
         private IUserProfilesRepository _userProfilesRepository;
+        private IUserMembersRepository _userMembersRepository;
+        private IUserBonusPointsRepository _userBonusPointsRepository;
+        private IUserPasswordRepository _userPasswordRepository;
 
         public RepositoryManager(AdoDbContext adoContext)
         {
@@ -42,6 +45,42 @@ namespace Realta.Persistence.Base
                     _userProfilesRepository = new UserProfilesRepository(_adoContext);
                 }
                 return _userProfilesRepository;
+            }
+        }
+
+        public IUserMembersRepository UserMembersRepository
+        {
+            get
+            {
+                if (_userMembersRepository == null) 
+                { 
+                    _userMembersRepository = new UserMembersRepository(_adoContext);
+                }
+                return _userMembersRepository;
+            }
+        }
+
+        public IUserBonusPointsRepository UserBonusPointsRepository
+        {
+            get
+            {
+                if (_userBonusPointsRepository == null) 
+                { 
+                    _userBonusPointsRepository = new UserBonusPointsRepository(_adoContext);
+                }
+                return _userBonusPointsRepository;
+            }
+        }
+
+        public IUserPasswordRepository UserPasswordRepository
+        {
+            get
+            {
+                if (_userPasswordRepository == null)
+                {
+                    _userPasswordRepository = new UserPasswordRepository(_adoContext);
+                }
+                return _userPasswordRepository;
             }
         }
     }

@@ -26,7 +26,6 @@ namespace Realta.WebAPI.Controllers
         {
             var uspro = _repositoryManager.UserProfilesRepository.FindAllUserProfiles().ToList();
 
-
             //use dto
             var usproDto = uspro.Select(u => new UserProfilesDto
             {

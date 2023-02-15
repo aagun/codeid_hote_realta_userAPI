@@ -11,6 +11,9 @@ namespace Realta.Domain.Base
     {
         IUsersRepository UsersRepository { get; }
         IUserProfilesRepository UserProfilesRepository { get; }
+        IUserMembersRepository UserMembersRepository { get; }
+        IUserBonusPointsRepository UserBonusPointsRepository { get; }
+        IUserPasswordRepository UserPasswordRepository { get; }
         
     }
 }
