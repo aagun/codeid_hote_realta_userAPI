@@ -1,0 +1,15 @@
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\obj\Debug\net6.0\Realta.Contract.csproj.AssemblyReference.cache
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\obj\Debug\net6.0\Realta.Contract.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\obj\Debug\net6.0\Realta.Contract.AssemblyInfoInputs.cache
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\obj\Debug\net6.0\Realta.Contract.AssemblyInfo.cs
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\obj\Debug\net6.0\Realta.Contract.csproj.CoreCompileInputs.cache
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\bin\Debug\net6.0\Realta.Contract.exe
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\bin\Debug\net6.0\Realta.Contract.deps.json
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\bin\Debug\net6.0\Realta.Contract.runtimeconfig.json
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\bin\Debug\net6.0\Realta.Contract.dll
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\bin\Debug\net6.0\Realta.Contract.pdb
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\obj\Debug\net6.0\Realta.Contract.dll
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\obj\Debug\net6.0\refint\Realta.Contract.dll
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\obj\Debug\net6.0\Realta.Contract.pdb
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\obj\Debug\net6.0\Realta.Contract.genruntimeconfig.cache
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Contract\obj\Debug\net6.0\ref\Realta.Contract.dll
