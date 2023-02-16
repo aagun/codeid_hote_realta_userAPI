@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Realta.Contract.Models;
 using Realta.Domain.Base;
+using Realta.Domain.Entities;
 using Realta.Services.Abstraction;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -70,20 +71,92 @@ namespace Realta.WebAPI.Controllers
 
         // POST api/<UserProfilesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult CreateUspro([FromBody] UserProfilesDto usproDto)
         {
+            if (usproDto == null)
+            {
+                _logger.LogError("UsproDto object sent from client is null");
+                return BadRequest("UsproDto object is null");
+            }
+
+            var uspro = new UserProfiles()
+            {
+                uspro_national_id = usproDto.uspro_national_id,
+                uspro_birth_date = usproDto.uspro_birth_date,
+                uspro_job_title = usproDto.uspro_job_title,
+                uspro_marital_status = usproDto.uspro_marital_status,
+                uspro_gender = usproDto.uspro_gender,
+                uspro_addr_id = usproDto.uspro_addr_id,
+                uspro_user_id = usproDto.uspro_user_id
+            };
+           
+            _repositoryManager.UserProfilesRepository.Insert(uspro);
+
+            var result = _repositoryManager.UserProfilesRepository.FindUserProfilesById(uspro.uspro_id);
+
+            return CreatedAtRoute("GetUspro", new { id = uspro.uspro_id }, result);
         }
 
         // PUT api/<UserProfilesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult UpdateUspro(int id, [FromBody] UserProfilesDto usproDto)
         {
+            
+            if (usproDto == null)
+            {
+                _logger.LogError("UsproDto object sent from client is null");
+                return BadRequest("UsproDto object is null");
+            }
+
+            var uspro = new UserProfiles()
+            {
+                uspro_id = id,
+                uspro_national_id = usproDto.uspro_national_id,
+                uspro_birth_date = usproDto.uspro_birth_date,
+                uspro_job_title = usproDto.uspro_job_title,
+                uspro_marital_status = usproDto.uspro_marital_status,
+                uspro_gender = usproDto.uspro_gender,
+                uspro_addr_id = usproDto.uspro_addr_id,
+                uspro_user_id = usproDto.uspro_user_id
+            };
+         
+            _repositoryManager.UserProfilesRepository.Edit(uspro);
+
+            return CreatedAtRoute("GetUspro", new { id = usproDto.uspro_id }, new UserProfilesDto
+            {
+                uspro_id = id,
+                uspro_national_id = uspro.uspro_national_id,
+                uspro_birth_date = uspro.uspro_birth_date,
+                uspro_job_title = uspro.uspro_job_title,
+                uspro_marital_status = uspro.uspro_marital_status,
+                uspro_gender = uspro.uspro_gender,
+                uspro_addr_id = uspro.uspro_addr_id,
+                uspro_user_id = uspro.uspro_user_id
+            });
+
         }
 
         // DELETE api/<UserProfilesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int? id)
         {
+            //prevent regiondto from null
+            if (id == null)
+            {
+                _logger.LogError("Id object sent from client is null");
+                return BadRequest("Id object is null");
+            }
+
+            //find id first
+            var uspro = _repositoryManager.UserProfilesRepository.FindUserProfilesById(id.Value);
+            if (uspro == null)
+            {
+                _logger.LogError($"User profiles with id {id} not found");
+                return NotFound();
+            }
+
+            _repositoryManager.UserProfilesRepository.Remove(uspro);
+            return Ok("Data has been remove.");
         }
     }
 }

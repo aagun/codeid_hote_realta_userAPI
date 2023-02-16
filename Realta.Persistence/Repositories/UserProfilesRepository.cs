@@ -19,7 +19,64 @@ namespace Realta.Persistence.Repositories
 
         public void Edit(UserProfiles uspro)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "UPDATE users.user_profiles SET uspro_national_id=@usproNationalId, uspro_birth_date=@usproBirthDate, " +
+                "uspro_job_title=@usproJobTitle, uspro_marital_status=@usproMaritalStatus, uspro_gender=@usproGender, uspro_addr_id=@usproAddrId, " +
+                "uspro_user_id=@usproUserId WHERE uspro_id= @usproId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproId",
+                        DataType = DbType.Int16,
+                        Value = uspro.uspro_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@usproNationalId",
+                        DataType = DbType.String,
+                        Value = uspro.uspro_national_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@usproBirthDate",
+                        DataType = DbType.DateTime,
+                        Value = uspro.uspro_birth_date
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproJobTitle",
+                        DataType = DbType.String,
+                        Value = uspro.uspro_job_title
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproMaritalStatus",
+                        DataType = DbType.String,
+                        Value = uspro.uspro_marital_status
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproGender",
+                        DataType = DbType.String,
+                        Value = uspro.uspro_gender
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproAddrId",
+                        DataType = DbType.Int16,
+                        Value = uspro.uspro_addr_id
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproUserId",
+                        DataType = DbType.Int16,
+                        Value = uspro.uspro_user_id
+                    }
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
 
         public IEnumerable<UserProfiles> FindAllUserProfiles()
@@ -33,9 +90,28 @@ namespace Realta.Persistence.Repositories
             }
         }
 
-        public Task<IEnumerable<UserProfiles>> FindAllUserProfilesAsync()
+        public async Task<IEnumerable<UserProfiles>> FindAllUserProfilesAsync()
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "SELECT * FROM users.user_profiles;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] { }
+
+            };
+
+            IAsyncEnumerator<UserProfiles> dataSet = FindAllAsync<UserProfiles>(model);
+
+            var item = new List<UserProfiles>();
+
+
+            while (await dataSet.MoveNextAsync())
+            {
+                item.Add(dataSet.Current);
+            }
+
+
+            return item;
         }
 
         public UserProfiles FindUserProfilesById(int usproId)
@@ -67,12 +143,77 @@ namespace Realta.Persistence.Repositories
 
         public void Insert(UserProfiles uspro)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "INSERT INTO users.user_profiles (uspro_national_id,uspro_birth_date,uspro_job_title,uspro_marital_status,uspro_gender,uspro_addr_id,uspro_user_id) " +
+                "values (@usproNationalId,@usproBirthDate,@usproJobTitle,@usproMaritalStatus,@usproGender,@usproAddrId,@usproUserId);" +
+                "SELECT CAST(scope_identity() as int);",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@usproNationalId",
+                        DataType = DbType.String,
+                        Value = uspro.uspro_national_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@usproBirthDate",
+                        DataType = DbType.DateTime,
+                        Value = uspro.uspro_birth_date
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproJobTitle",
+                        DataType = DbType.String,
+                        Value = uspro.uspro_job_title
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproMaritalStatus",
+                        DataType = DbType.String,
+                        Value = uspro.uspro_marital_status
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproGender",
+                        DataType = DbType.String,
+                        Value = uspro.uspro_gender
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproAddrId",
+                        DataType = DbType.Int16,
+                        Value = uspro.uspro_addr_id
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproUserId",
+                        DataType = DbType.Int16,
+                        Value = uspro.uspro_user_id
+                    }
+                }
+            };
+
+            uspro.uspro_id = _adoContext.ExecuteScalar<int>(model);
+            _adoContext.Dispose();
         }
 
         public void Remove(UserProfiles uspro)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "DELETE FROM users.user_profiles WHERE uspro_id=@usproId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@usproId",
+                        DataType = DbType.Int32,
+                        Value = uspro.uspro_id
+                    }
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
     }
 }

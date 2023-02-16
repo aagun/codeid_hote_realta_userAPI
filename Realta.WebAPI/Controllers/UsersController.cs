@@ -120,7 +120,16 @@ namespace Realta.WebAPI.Controllers
 
             _repositoryManager.UsersRepository.Edit(users);
 
-            return CreatedAtRoute("GetUsers", new { id = usersDto.user_id }, new UsersDto { user_id = id, user_full_name = users.user_full_name, user_type = users.user_type, user_company_name = users.user_company_name, user_email = users.user_email, user_phone_number = users.user_phone_number, user_modified_date = users.user_modified_date });
+            return CreatedAtRoute("GetUsers", new { id = usersDto.user_id }, new UsersDto 
+            { 
+                user_id = id, 
+                user_full_name = users.user_full_name, 
+                user_type = users.user_type, 
+                user_company_name = users.user_company_name, 
+                user_email = users.user_email, 
+                user_phone_number = users.user_phone_number, 
+                user_modified_date = users.user_modified_date 
+            });
         }
 
         // DELETE api/<UsersController>/5
