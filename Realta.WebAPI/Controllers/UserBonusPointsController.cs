@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Realta.Contract.Models;
 using Realta.Domain.Base;
+using Realta.Domain.Entities;
 using Realta.Services.Abstraction;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -63,20 +64,81 @@ namespace Realta.WebAPI.Controllers
 
         // POST api/<UserBonusPointsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult CreateUbpo([FromBody] UserBonusPointsDto ubpoDto)
         {
+            if (ubpoDto == null)
+            {
+                _logger.LogError("UbpoDto object sent from client is null");
+                return BadRequest("UbpoDto object is null");
+            }
+
+            var ubpo = new UserBonusPoints()
+            {
+                ubpo_user_id = ubpoDto.ubpo_user_id,
+                ubpo_total_points = ubpoDto.ubpo_total_points,
+                ubpo_bonus_type = ubpoDto.ubpo_bonus_type,
+                ubpo_created_on = ubpoDto.ubpo_created_on
+            };
+           
+            _repositoryManager.UserBonusPointsRepository.Insert(ubpo);
+
+            var result = _repositoryManager.UserBonusPointsRepository.FindUserBonusPointsById(ubpo.ubpo_id);
+            return CreatedAtRoute("GetUbpo", new { id = ubpo.ubpo_id }, result);
+
         }
 
         // PUT api/<UserBonusPointsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult UpdateUbpo(int id, [FromBody] UserBonusPointsDto ubpoDto)
         {
+            if (ubpoDto == null)
+            {
+                _logger.LogError("UbpoDto object sent from client is null");
+                return BadRequest("UbpoDto object is null");
+            }
+
+            var ubpo = new UserBonusPoints()
+            {
+                ubpo_id = id,
+                ubpo_user_id = ubpoDto.ubpo_user_id,
+                ubpo_total_points = ubpoDto.ubpo_total_points,
+                ubpo_bonus_type = ubpoDto.ubpo_bonus_type,
+                ubpo_created_on = ubpoDto.ubpo_created_on
+            };
+
+            _repositoryManager.UserBonusPointsRepository.Edit(ubpo);
+            return CreatedAtRoute("GetUbpo", new { id = ubpoDto.ubpo_id }, new UserBonusPointsDto
+            {
+                ubpo_id = id,
+                ubpo_user_id = ubpo.ubpo_user_id,
+                ubpo_total_points = ubpo.ubpo_total_points,
+                ubpo_bonus_type = ubpo.ubpo_bonus_type,
+                ubpo_created_on = ubpo.ubpo_created_on
+            });
+
         }
 
         // DELETE api/<UserBonusPointsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int? id)
         {
+            if (id == null)
+            {
+                _logger.LogError("Id object sent from client is null");
+                return BadRequest("Id object is null");
+            }
+
+            //find id first
+            var ubpo = _repositoryManager.UserBonusPointsRepository.FindUserBonusPointsById(id.Value);
+            
+            if (ubpo == null)
+            {
+                _logger.LogError($"Ubpo with id {id} not found");
+                return NotFound();
+            }
+
+            _repositoryManager.UserBonusPointsRepository.Remove(ubpo);
+            return Ok("Data has been remove.");
         }
     }
 }

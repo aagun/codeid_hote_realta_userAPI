@@ -19,7 +19,44 @@ namespace Realta.Persistence.Repositories
 
         public void Edit(UserBonusPoints ubpo)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "UPDATE users.bonus_points SET ubpo_user_id=@ubpoUserId, ubpo_total_points=@ubpoTotalPoints, " +
+                "ubpo_bonus_type=@ubpoBonusType, ubpo_created_on=@ubpoCreatedOn WHERE ubpo_id= @ubpoId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@ubpoId",
+                        DataType = DbType.Int32,
+                        Value = ubpo.ubpo_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@ubpoUserId",
+                        DataType = DbType.Int16,
+                        Value = ubpo.ubpo_user_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@ubpoTotalPoints",
+                        DataType = DbType.Int16,
+                        Value = ubpo.ubpo_total_points
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@ubpoBonusType",
+                        DataType = DbType.String,
+                        Value = ubpo.ubpo_bonus_type
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@ubpoCreatedOn",
+                        DataType = DbType.DateTime,
+                        Value = ubpo.ubpo_created_on
+                    }
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
 
         public IEnumerable<UserBonusPoints> FindAllUserBonusPoints()
@@ -33,9 +70,27 @@ namespace Realta.Persistence.Repositories
             }
         }
 
-        public Task<IEnumerable<UserBonusPoints>> FindAllUserBonusPointsAsync()
+        public async Task<IEnumerable<UserBonusPoints>> FindAllUserBonusPointsAsync()
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "SELECT * FROM users.bonus_points;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] { }
+
+            };
+
+            IAsyncEnumerator<UserBonusPoints> dataSet = FindAllAsync<UserBonusPoints>(model);
+
+            var item = new List<UserBonusPoints>();
+
+
+            while (await dataSet.MoveNextAsync())
+            {
+                item.Add(dataSet.Current);
+            }
+
+            return item;
         }
 
         public UserBonusPoints FindUserBonusPointsById(int ubpoId)
@@ -66,12 +121,60 @@ namespace Realta.Persistence.Repositories
 
         public void Insert(UserBonusPoints ubpo)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "INSERT INTO users.bonus_points (ubpo_user_id,ubpo_total_points,ubpo_bonus_type,ubpo_created_on) " +
+                "values (@ubpoUserId,@ubpoTotalPoints,@ubpoBonusType,@ubpoCreatedOn);" +
+                "SELECT CAST(scope_identity() as int);",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@ubpoUserId",
+                        DataType = DbType.Int16,
+                        Value = ubpo.ubpo_user_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@ubpoTotalPoints",
+                        DataType = DbType.Int16,
+                        Value = ubpo.ubpo_total_points
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@ubpoBonusType",
+                        DataType = DbType.String,
+                        Value = ubpo.ubpo_bonus_type
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@ubpoCreatedOn",
+                        DataType = DbType.DateTime,
+                        Value = ubpo.ubpo_created_on
+                    }
+                    
+                }
+            };
+
+            ubpo.ubpo_id = _adoContext.ExecuteScalar<int>(model);
+            _adoContext.Dispose();
         }
 
         public void Remove(UserBonusPoints ubpo)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "DELETE FROM users.bonus_points WHERE ubpo_id=@ubpoId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@ubpoId",
+                        DataType = DbType.Int32,
+                        Value = ubpo.ubpo_id
+                    }
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
     }
 }
