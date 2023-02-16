@@ -19,7 +19,45 @@ namespace Realta.Persistence.Repositories
 
         public void Edit(UserMembers usme)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "UPDATE users.user_members SET usme_memb_name=@usmeMembName, usme_promote_date=@usmePromoteDate, " +
+                "usme_points=@usmePoints, usme_type=@usmeType WHERE usme_user_id = @usmeUserId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@usmeUserId",
+                        DataType = DbType.Int32,
+                        Value = usme.usme_user_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@usmeMembName",
+                        DataType = DbType.String,
+                        Value = usme.usme_memb_name
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usmePromoteDate",
+                        DataType = DbType.DateTime,
+                        Value = usme.usme_promote_date
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usmePoints",
+                        DataType = DbType.Int16,
+                        Value = usme.usme_points
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usmeType",
+                        DataType = DbType.String,
+                        Value = usme.usme_type
+                    }
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
 
         public IEnumerable<UserMembers> FindAllUserMembers()
@@ -66,12 +104,64 @@ namespace Realta.Persistence.Repositories
 
         public void Insert(UserMembers usme)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "INSERT INTO users.user_members (usme_user_id,usme_memb_name,usme_promote_date,usme_points,usme_type) " +
+                "values (@usmeUserId,@usmeMembName,@usmePromoteDate,@usmePoints,@usmeType);",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@usmeUserId",
+                        DataType = DbType.Int32,
+                        Value = usme.usme_user_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@usmeMembName",
+                        DataType = DbType.String,
+                        Value = usme.usme_memb_name
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usmePromoteDate",
+                        DataType = DbType.DateTime,
+                        Value = usme.usme_promote_date
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usmePoints",
+                        DataType = DbType.Int16,
+                        Value = usme.usme_points
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usmeType",
+                        DataType = DbType.String,
+                        Value = usme.usme_type
+                    }
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
 
         public void Remove(UserMembers usme)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "DELETE FROM users.user_members WHERE usme_user_id=@usmeUserId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@usmeUserId",
+                        DataType = DbType.Int32,
+                        Value = usme.usme_user_id
+                    }
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
     }
 }
