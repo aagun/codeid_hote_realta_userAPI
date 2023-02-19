@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Realta.Contract.Models;
 using Realta.Domain.Base;
+using Realta.Domain.Entities;
 using Realta.Services.Abstraction;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -37,28 +38,94 @@ namespace Realta.WebAPI.Controllers
         }
 
         // GET api/<RolesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetRoles")]
+        public IActionResult CreateRoles(int id)
         {
-            return "value";
+            var roles = _repositoryManager.RolesRepository.FindRolesById(id);
+
+            if (roles == null)
+            {
+                _logger.LogError("Roles object sent from client is null");
+                return BadRequest("Roles object is null");
+            }
+            var rolesDto = new RolesDto
+            {
+                role_id = roles.role_id,
+                role_name = roles.role_name
+            };
+
+            return Ok(rolesDto);
         }
 
         // POST api/<RolesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult CreateRoles([FromBody] RolesDto rolesDto)
         {
+            if (rolesDto == null)
+            {
+                _logger.LogError("RolesDto object sent from client is null");
+                return BadRequest("RolesDto object is null");
+            }
+
+            var roles = new Roles()
+            {
+                role_name = rolesDto.role_name,
+            };
+           
+            _repositoryManager.RolesRepository.Insert(roles);
+
+            var result = _repositoryManager.RolesRepository.FindRolesById(roles.role_id);
+            return CreatedAtRoute("GetRoles", new { id = roles.role_id }, result);
+
+
         }
 
         // PUT api/<RolesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult UpdateRoles(int id, [FromBody] RolesDto rolesDto)
         {
+            if (rolesDto == null)
+            {
+                _logger.LogError("RolesDto object sent from client is null");
+                return BadRequest("RolesDto object is null");
+            }
+
+            var roles = new Roles()
+            {
+                role_id = rolesDto.role_id,
+                role_name = rolesDto.role_name
+            };
+
+            _repositoryManager.RolesRepository.Edit(roles);
+            return CreatedAtRoute("GetRoles", new { id = rolesDto.role_id }, new RolesDto
+            {
+                role_id = id,
+                role_name = roles.role_name
+            });
+
         }
 
         // DELETE api/<RolesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int? id)
         {
+            if (id == null)
+            {
+                _logger.LogError("Id object sent from client is null");
+                return BadRequest("Id object is null");
+            }
+
+            //find id first
+            var roles = _repositoryManager.RolesRepository.FindRolesById(id.Value);
+
+            if (roles == null)
+            {
+                _logger.LogError($"Roles with id {id} not found");
+                return NotFound();
+            }
+
+            _repositoryManager.RolesRepository.Remove(roles);
+            return Ok("Data has been remove.");
         }
     }
 }

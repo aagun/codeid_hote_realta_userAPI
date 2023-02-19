@@ -13,7 +13,7 @@ namespace Realta.Domain.Repositories
 
         Task<IEnumerable<UserRoles>> FindAllUserRolesAsync();
 
-        Users FindUserRolesById(int usroId);
+        UserRoles FindUserRolesById(int usroId);
 
         void Insert(UserRoles usro);
 

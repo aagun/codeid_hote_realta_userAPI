@@ -15,5 +15,6 @@ namespace Realta.Domain.Entities
         [ForeignKey("Users")]
         public int usro_role_id { get; set; }
         
+        
     }
 }

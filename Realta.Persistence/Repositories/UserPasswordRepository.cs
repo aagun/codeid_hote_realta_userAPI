@@ -19,7 +19,34 @@ namespace Realta.Persistence.Repositories
 
         public void Edit(UserPassword uspa)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "UPDATE users.user_password SET uspa_passwordHash=@uspaPasswordHash, uspa_passwordSalt=@uspaPasswordSalt " +
+                "WHERE uspa_user_id = @uspaUserId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@uspaUserId",
+                        DataType = DbType.Int32,
+                        Value = uspa.uspa_user_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@uspaPasswordHash",
+                        DataType = DbType.String,
+                        Value = uspa.uspa_passwordHash
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@uspaPasswordSalt",
+                        DataType = DbType.String,
+                        Value = uspa.uspa_passwordSalt
+                    }
+                  
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
 
         public IEnumerable<UserPassword> FindAllUserPassword()
@@ -33,9 +60,28 @@ namespace Realta.Persistence.Repositories
             }
         }
 
-        public Task<IEnumerable<UserPassword>> FindAllUserPasswordAsync()
+        public async Task<IEnumerable<UserPassword>> FindAllUserPasswordAsync()
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "SELECT * FROM users.user_password;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] { }
+
+            };
+
+            IAsyncEnumerator<UserPassword> dataSet = FindAllAsync<UserPassword>(model);
+
+            var item = new List<UserPassword>();
+
+
+            while (await dataSet.MoveNextAsync())
+            {
+                item.Add(dataSet.Current);
+            }
+
+
+            return item;
         }
 
         public UserPassword FindUserPasswordById(int uspaId)
@@ -66,12 +112,55 @@ namespace Realta.Persistence.Repositories
 
         public void Insert(UserPassword uspa)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "SET IDENTITY_INSERT users.user_password ON;" +
+                "INSERT INTO users.user_password (uspa_user_id, uspa_passwordHash, uspa_passwordSalt) " +
+                "values (@uspaUserId, @uspaPasswordHash, @uspaPasswordSalt);" +
+                "SET IDENTITY_INSERT users.user_password OFF;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@uspaUserId",
+                        DataType = DbType.Int32,
+                        Value = uspa.uspa_user_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@uspaPasswordHash",
+                        DataType = DbType.String,
+                        Value = uspa.uspa_passwordHash
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@uspaPasswordSalt",
+                        DataType = DbType.String,
+                        Value = uspa.uspa_passwordSalt
+                    },
+               
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
 
         public void Remove(UserPassword uspa)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "DELETE FROM users.user_password WHERE uspa_user_id=@uspaUserId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@uspaUserId",
+                        DataType = DbType.Int32,
+                        Value = uspa.uspa_user_id
+                    }
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
     }
 }

@@ -71,9 +71,28 @@ namespace Realta.Persistence.Repositories
             }
         }
 
-        public Task<IEnumerable<UserMembers>> FindAllUserMembersAsync()
+        public async Task<IEnumerable<UserMembers>> FindAllUserMembersAsync()
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "SELECT * FROM users.members;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] { }
+
+            };
+
+            IAsyncEnumerator<UserMembers> dataSet = FindAllAsync<UserMembers>(model);
+
+            var item = new List<UserMembers>();
+
+
+            while (await dataSet.MoveNextAsync())
+            {
+                item.Add(dataSet.Current);
+            }
+
+
+            return item;
         }
 
         public UserMembers FindUserMembersById(int usmeId)

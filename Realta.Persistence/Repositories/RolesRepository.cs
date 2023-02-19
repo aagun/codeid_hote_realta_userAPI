@@ -19,7 +19,27 @@ namespace Realta.Persistence.Repositories
 
         public void Edit(Roles roles)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "UPDATE users.roles SET role_name=@roleName WHERE role_id = @roleId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@roleId",
+                        DataType = DbType.Int32,
+                        Value = roles.role_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@roleName",
+                        DataType = DbType.String,
+                        Value = roles.role_name
+                    }
+
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
 
         public IEnumerable<Roles> FindAllRoles()
@@ -33,24 +53,99 @@ namespace Realta.Persistence.Repositories
             }
         }
 
-        public Task<IEnumerable<Roles>> FindAllRolesAsync()
+        public async Task<IEnumerable<Roles>> FindAllRolesAsync()
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "SELECT * FROM users.roles;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] { }
+
+            };
+
+            IAsyncEnumerator<Roles> dataSet = FindAllAsync<Roles>(model);
+
+            var item = new List<Roles>();
+
+
+            while (await dataSet.MoveNextAsync())
+            {
+                item.Add(dataSet.Current);
+            }
+
+
+            return item;
         }
 
-        public Users FindRolesById(int rolesId)
+        public Roles FindRolesById(int rolesId)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "SELECT * FROM users.roles where role_id=@roleId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@roleId",
+                        DataType = DbType.Int32,
+                        Value = rolesId
+                    }
+                }
+            };
+
+            var dataSet = FindByCondition<Roles>(model);
+
+            var item = new Roles();
+
+            while (dataSet.MoveNext())
+            {
+                item = dataSet.Current;
+            }
+            return item;
         }
 
         public void Insert(Roles roles)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "INSERT INTO users.roles (role_id, role_name " +
+                "values (@roleId, @roleName);",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@roleId",
+                        DataType = DbType.Int32,
+                        Value = roles.role_id
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@roleName",
+                        DataType = DbType.String,
+                        Value = roles.role_name
+                    },
+
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
 
         public void Remove(Roles roles)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "DELETE FROM users.roles WHERE role_id=@roleId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@roleId",
+                        DataType = DbType.Int32,
+                        Value = roles.role_id
+                    }
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
         }
     }
 }
