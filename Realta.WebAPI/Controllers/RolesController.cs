@@ -69,14 +69,12 @@ namespace Realta.WebAPI.Controllers
 
             var roles = new Roles()
             {
-                role_name = rolesDto.role_name,
+                role_id = rolesDto.role_id,
+                role_name = rolesDto.role_name
             };
            
             _repositoryManager.RolesRepository.Insert(roles);
-
-            var result = _repositoryManager.RolesRepository.FindRolesById(roles.role_id);
-            return CreatedAtRoute("GetRoles", new { id = roles.role_id }, result);
-
+            return CreatedAtRoute("GetRoles", new { id = rolesDto.role_id }, rolesDto);
 
         }
 
@@ -92,10 +90,10 @@ namespace Realta.WebAPI.Controllers
 
             var roles = new Roles()
             {
-                role_id = rolesDto.role_id,
+                role_id = id,
                 role_name = rolesDto.role_name
             };
-
+           
             _repositoryManager.RolesRepository.Edit(roles);
             return CreatedAtRoute("GetRoles", new { id = rolesDto.role_id }, new RolesDto
             {

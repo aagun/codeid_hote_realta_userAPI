@@ -90,16 +90,17 @@ namespace Realta.WebAPI.Controllers
 
             var usro = new UserRoles()
             {
-                usro_user_id = usroDto.usro_user_id,
+                usro_user_id = id,
                 usro_role_id = usroDto.usro_role_id
             };
-           
+
             _repositoryManager.UserRolesRepository.Edit(usro);
             return CreatedAtRoute("GetUsro", new { id = usroDto.usro_user_id }, new UserRolesDto
             {
                 usro_user_id = id,
                 usro_role_id = usro.usro_role_id
             });
+           
         }
 
         // DELETE api/<UserRolesController>/5

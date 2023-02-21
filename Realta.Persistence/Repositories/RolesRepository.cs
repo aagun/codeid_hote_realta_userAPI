@@ -107,8 +107,10 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "INSERT INTO users.roles (role_id, role_name " +
-                "values (@roleId, @roleName);",
+                CommandText = "SET IDENTITY_INSERT users.roles ON;" +
+                "INSERT INTO users.roles (role_id, role_name) " +
+                "values (@roleId, @roleName);" +
+                "SET IDENTITY_INSERT users.roles OFF;",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {

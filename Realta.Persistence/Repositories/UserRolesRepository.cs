@@ -34,7 +34,7 @@ namespace Realta.Persistence.Repositories
                         DataType = DbType.Int32,
                         Value = usro.usro_role_id
                     }
-                   
+
                 }
             };
 
