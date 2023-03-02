@@ -11,9 +11,9 @@ namespace Realta.Domain.Entities
     public class UserPassword
     {
         [Key]
-        public int uspa_user_id { get; set; }
+        public int UspaUserId { get; set; }
         [ForeignKey("Users")]
-        public string uspa_passwordHash { get; set; }
-        public string uspa_passwordSalt { get; set; }
+        public string UspaPasswordHash { get; set; }
+        public string UspaPasswordSalt { get; set; }
     }
 }

@@ -27,12 +27,12 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@usroUserId",
                         DataType = DbType.Int32,
-                        Value = usro.usro_user_id
+                        Value = usro.UsroUserId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@usroRoleId",
                         DataType = DbType.Int32,
-                        Value = usro.usro_role_id
+                        Value = usro.UsroRoleId
                     }
 
                 }
@@ -44,7 +44,8 @@ namespace Realta.Persistence.Repositories
 
         public IEnumerable<UserRoles> FindAllUserRoles()
         {
-            IEnumerator<UserRoles> dataSet = FindAll<UserRoles>("SELECT * FROM users.user_roles");
+            IEnumerator<UserRoles> dataSet = FindAll<UserRoles>("SELECT usro_user_id UsroUserId, usro_role_id UsroRoleId " +
+                "FROM users.user_roles");
 
             while (dataSet.MoveNext())
             {
@@ -89,12 +90,12 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@usroUserId",
                         DataType = DbType.Int32,
-                        Value = usro.usro_user_id
+                        Value = usro.UsroUserId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@usroRoleId",
                         DataType = DbType.Int32,
-                        Value = usro.usro_role_id
+                        Value = usro.UsroRoleId
                     },
         
                 }
@@ -114,7 +115,7 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@usroUserId",
                         DataType = DbType.Int32,
-                        Value = usro.usro_user_id
+                        Value = usro.UsroUserId
                     }
                 }
             };
@@ -127,7 +128,8 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "SELECT * FROM users.user_roles where usro_user_id=@usroUserId;",
+                CommandText = "SELECT usro_user_id UsroUserId, usro_role_id UsroRoleId " +
+                "FROM users.user_roles where usro_user_id=@usroUserId;",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {

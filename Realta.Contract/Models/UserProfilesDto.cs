@@ -8,13 +8,13 @@ namespace Realta.Contract.Models
 {
     public class UserProfilesDto
     {
-        public int uspro_id { get; set; }
-        public string uspro_national_id { get; set; }
-        public DateTime uspro_birth_date { get; set; }
-        public string? uspro_job_title { get; set; }
-        public string uspro_marital_status { get; set; }
-        public string uspro_gender { get; set; }
-        public int uspro_addr_id { get; set; }
-        public int uspro_user_id { get; set; }
+        public int UsproId { get; set; }
+        public string UsproNationalId { get; set; }
+        public DateTime UsproBirthDate { get; set; }
+        public string? UsproJobTitle { get; set; }
+        public string UsproMaritalStatus { get; set; }
+        public string UsproGender { get; set; }
+        public int UsproAddrId { get; set; }
+        public int UsproUserId { get; set; }
     }
 }

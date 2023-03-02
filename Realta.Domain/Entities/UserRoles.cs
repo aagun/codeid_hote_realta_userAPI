@@ -11,9 +11,9 @@ namespace Realta.Domain.Entities
     public class UserRoles
     {
         [Key]
-        public int usro_user_id { get; set; }
+        public int UsroUserId { get; set; }
         [ForeignKey("Users")]
-        public int usro_role_id { get; set; }
+        public int UsroRoleId { get; set; }
         
         
     }

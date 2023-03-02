@@ -8,10 +8,10 @@ namespace Realta.Contract.Models
 {
     public class UserMembersDto
     {
-        public int usme_user_id { get; set; }
-        public string usme_memb_name { get; set; }
-        public DateTime? usme_promote_date { get; set; }
-        public Int16? usme_points { get; set; }
-        public string? usme_type { get; set; }
+        public int UsmeUserId { get; set; }
+        public string UsmeMembName { get; set; }
+        public DateTime? UsmePromoteDate { get; set; }
+        public Int16? UsmePoints { get; set; }
+        public string? UsmeType { get; set; }
     }
 }

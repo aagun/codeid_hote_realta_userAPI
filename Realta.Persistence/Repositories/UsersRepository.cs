@@ -21,42 +21,49 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "UPDATE users.users SET user_full_name=@userFullName, user_type=@userType, user_company_name=@userCompanyName, user_email=@userEmail, user_phone_number=@userPhoneNumber WHERE user_id= @userId;",
+                CommandText = "UPDATE users.users SET user_full_name=@userFullName, user_type=@userType, user_company_name=@userCompanyName, " +
+                "user_email=@userEmail, user_phone_number=@userPhoneNumber, user_modified_date=@userModifiedDate WHERE user_id= @userId;",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
                         ParameterName = "@userId",
                         DataType = DbType.Int32,
-                        Value = users.user_id
+                        Value = users.UserId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@userFullName",
                         DataType = DbType.String,
-                        Value = users.user_full_name
+                        Value = users.UserFullName
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@userType",
                         DataType = DbType.String,
-                        Value = users.user_type
+                        Value = users.UserType
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@userCompanyName",
                         DataType = DbType.String,
-                        Value = users.user_company_name
+                        Value = users.UserCompanyName
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@userEmail",
                         DataType = DbType.String,
-                        Value = users.user_email
+                        Value = users.UserEmail
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@userPhoneNumber",
                         DataType = DbType.String,
-                        Value = users.user_phone_number
+                        Value = users.UserPhoneNumber
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userModifiedDate",
+                        DataType = DbType.DateTime,
+                        Value = users.UserModifiedDate
                     }
                 }
             };
@@ -67,7 +74,9 @@ namespace Realta.Persistence.Repositories
 
         public IEnumerable<Users> FindAllUsers()
         {
-            IEnumerator<Users> dataSet = FindAll<Users>("SELECT * FROM users.users");
+            IEnumerator<Users> dataSet = FindAll<Users>("SELECT user_id UserId, user_full_name UserFullName, user_type UserType, " +
+                "user_company_name UserCompanyName, user_email UserEmail, user_phone_number UserPhoneNumber, " +
+                "user_modified_date UserModifiedDate FROM users.users");
 
             while (dataSet.MoveNext())
             {
@@ -105,7 +114,9 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "SELECT * FROM users.users where user_id=@userId;",
+                CommandText = "SELECT user_id UserId, user_full_name UserFullName, user_type UserType, user_company_name UserCompanyName, " +
+                "user_email UserEmail, user_phone_number UserPhoneNumber, user_modified_date UserModifiedDate " +
+                "FROM users.users where user_id=@userId;",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -131,8 +142,9 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "INSERT INTO users.users (user_full_name,user_type,user_company_name,user_email," +
-                "user_phone_number,user_modified_date) values (@userFullName,@userType,@userCompanyName,@userEmail," +
+                CommandText = "INSERT INTO users.users (user_full_name, user_type, " +
+                "user_company_name, user_email, user_phone_number, user_modified_date) " +
+                "values (@userFullName,@userType,@userCompanyName,@userEmail," +
                 "@userPhoneNumber,@userModifiedDate);" +
                 "SELECT CAST(scope_identity() as int);",
                 CommandType = CommandType.Text,
@@ -141,42 +153,42 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@userFullName",
                         DataType = DbType.String,
-                        Value = users.user_full_name
+                        Value = users.UserFullName
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@userType",
                         DataType = DbType.String,
-                        Value = users.user_type
+                        Value = users.UserType
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@userCompanyName",
                         DataType = DbType.String,
-                        Value = users.user_company_name
+                        Value = users.UserCompanyName
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@userEmail",
                         DataType = DbType.String,
-                        Value = users.user_email
+                        Value = users.UserEmail
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@userPhoneNumber",
                         DataType = DbType.String,
-                        Value = users.user_phone_number
+                        Value = users.UserPhoneNumber
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@userModifiedDate",
                         DataType = DbType.DateTime,
-                        Value = users.user_modified_date
+                        Value = users.UserModifiedDate
                     }
                 }
             };
 
-            users.user_id = _adoContext.ExecuteScalar<int>(model);
+            users.UserId = _adoContext.ExecuteScalar<int>(model);
             _adoContext.Dispose();
         }
 
@@ -190,7 +202,7 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@userId",
                         DataType = DbType.Int32,
-                        Value = users.user_id
+                        Value = users.UserId
                     }
                 }
             };

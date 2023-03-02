@@ -32,11 +32,11 @@ namespace Realta.WebAPI.Controllers
             //use dto
             var usmeDto = usme.Select(u => new UserMembersDto
             {
-                usme_user_id = u.usme_user_id,
-                usme_memb_name = u.usme_memb_name,
-                usme_promote_date = u.usme_promote_date,
-                usme_points = u.usme_points,
-                usme_type = u.usme_type,
+                UsmeUserId = u.UsmeUserId,
+                UsmeMembName = u.UsmeMembName,
+                UsmePromoteDate = u.UsmePromoteDate,
+                UsmePoints = u.UsmePoints,
+                UsmeType = u.UsmeType,
             });
 
             return Ok(usmeDto);
@@ -54,11 +54,11 @@ namespace Realta.WebAPI.Controllers
             }
             var usmeDto = new UserMembersDto
             {
-                usme_user_id = usme.usme_user_id,
-                usme_memb_name = usme.usme_memb_name,
-                usme_promote_date = usme.usme_promote_date,
-                usme_points = usme.usme_points,
-                usme_type = usme.usme_type,
+                UsmeUserId = usme.UsmeUserId,
+                UsmeMembName = usme.UsmeMembName,
+                UsmePromoteDate = usme.UsmePromoteDate,
+                UsmePoints = usme.UsmePoints,
+                UsmeType = usme.UsmeType,
             };
 
             return Ok(usmeDto);
@@ -76,16 +76,16 @@ namespace Realta.WebAPI.Controllers
 
             var usme = new UserMembers()
             {
-                usme_user_id = usmeDto.usme_user_id,
-                usme_memb_name = usmeDto.usme_memb_name,
-                usme_promote_date = usmeDto.usme_promote_date,
-                usme_points = usmeDto.usme_points,
-                usme_type = usmeDto.usme_type
+                UsmeUserId = usmeDto.UsmeUserId,
+                UsmeMembName = usmeDto.UsmeMembName,
+                UsmePromoteDate = usmeDto.UsmePromoteDate,
+                UsmePoints = usmeDto.UsmePoints,
+                UsmeType = usmeDto.UsmeType
             };
 
             _repositoryManager.UserMembersRepository.Insert(usme);
 
-            return CreatedAtRoute("GetUsme", new { id = usmeDto.usme_user_id }, usmeDto);
+            return CreatedAtRoute("GetUsme", new { id = usmeDto.UsmeUserId }, usmeDto);
 
         }
 
@@ -101,22 +101,22 @@ namespace Realta.WebAPI.Controllers
 
             var usme = new UserMembers()
             {
-                usme_user_id = id,
-                usme_memb_name = usmeDto.usme_memb_name,
-                usme_promote_date = usmeDto.usme_promote_date,
-                usme_points = usmeDto.usme_points,
-                usme_type = usmeDto.usme_type
+                UsmeUserId = id,
+                UsmeMembName = usmeDto.UsmeMembName,
+                UsmePromoteDate = usmeDto.UsmePromoteDate,
+                UsmePoints = usmeDto.UsmePoints,
+                UsmeType = usmeDto.UsmeType
             };
            
             _repositoryManager.UserMembersRepository.Edit(usme);
 
-            return CreatedAtRoute("GetUsme", new { id = usmeDto.usme_user_id }, new UserMembersDto
+            return CreatedAtRoute("GetUsme", new { id = usmeDto.UsmeUserId }, new UserMembersDto
             {
-                usme_user_id = id,
-                usme_memb_name = usme.usme_memb_name,
-                usme_promote_date = usme.usme_promote_date,
-                usme_points = usme.usme_points,
-                usme_type = usme.usme_type
+                UsmeUserId = id,
+                UsmeMembName = usme.UsmeMembName,
+                UsmePromoteDate = usme.UsmePromoteDate,
+                UsmePoints = usme.UsmePoints,
+                UsmeType = usme.UsmeType
             });
           
         }

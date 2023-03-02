@@ -29,11 +29,11 @@ namespace Realta.WebAPI.Controllers
 
             var ubpoDto = ubpo.Select(u => new UserBonusPointsDto
             {
-                ubpo_id = u.ubpo_id,
-                ubpo_user_id = u.ubpo_user_id,
-                ubpo_total_points = u.ubpo_total_points,
-                ubpo_bonus_type = u.ubpo_bonus_type,
-                ubpo_created_on = u.ubpo_created_on,
+                UbpoId = u.UbpoId,
+                UbpoUserId = u.UbpoUserId,
+                UbpoTotalPoints = u.UbpoTotalPoints,
+                UbpoBonusType = u.UbpoBonusType,
+                UbpoCreatedOn = u.UbpoCreatedOn,
             });
 
             return Ok(ubpoDto);
@@ -51,11 +51,11 @@ namespace Realta.WebAPI.Controllers
             }
             var ubpoDto = new UserBonusPointsDto
             {
-                ubpo_id = ubpo.ubpo_id,
-                ubpo_user_id = ubpo.ubpo_user_id,
-                ubpo_total_points = ubpo.ubpo_total_points,
-                ubpo_bonus_type = ubpo.ubpo_bonus_type,
-                ubpo_created_on = ubpo.ubpo_created_on,
+                UbpoId = ubpo.UbpoId,
+                UbpoUserId = ubpo.UbpoUserId,
+                UbpoTotalPoints = ubpo.UbpoTotalPoints,
+                UbpoBonusType = ubpo.UbpoBonusType,
+                UbpoCreatedOn = ubpo.UbpoCreatedOn,
             };
 
             return Ok(ubpoDto);
@@ -74,16 +74,16 @@ namespace Realta.WebAPI.Controllers
 
             var ubpo = new UserBonusPoints()
             {
-                ubpo_user_id = ubpoDto.ubpo_user_id,
-                ubpo_total_points = ubpoDto.ubpo_total_points,
-                ubpo_bonus_type = ubpoDto.ubpo_bonus_type,
-                ubpo_created_on = ubpoDto.ubpo_created_on
+                UbpoUserId = ubpoDto.UbpoUserId,
+                UbpoTotalPoints = ubpoDto.UbpoTotalPoints,
+                UbpoBonusType = ubpoDto.UbpoBonusType,
+                UbpoCreatedOn = ubpoDto.UbpoCreatedOn
             };
            
             _repositoryManager.UserBonusPointsRepository.Insert(ubpo);
 
-            var result = _repositoryManager.UserBonusPointsRepository.FindUserBonusPointsById(ubpo.ubpo_id);
-            return CreatedAtRoute("GetUbpo", new { id = ubpo.ubpo_id }, result);
+            var result = _repositoryManager.UserBonusPointsRepository.FindUserBonusPointsById(ubpo.UbpoId);
+            return CreatedAtRoute("GetUbpo", new { id = ubpo.UbpoId }, result);
 
         }
 
@@ -99,21 +99,21 @@ namespace Realta.WebAPI.Controllers
 
             var ubpo = new UserBonusPoints()
             {
-                ubpo_id = id,
-                ubpo_user_id = ubpoDto.ubpo_user_id,
-                ubpo_total_points = ubpoDto.ubpo_total_points,
-                ubpo_bonus_type = ubpoDto.ubpo_bonus_type,
-                ubpo_created_on = ubpoDto.ubpo_created_on
+                UbpoId = id,
+                UbpoUserId = ubpoDto.UbpoUserId,
+                UbpoTotalPoints = ubpoDto.UbpoTotalPoints,
+                UbpoBonusType = ubpoDto.UbpoBonusType,
+                UbpoCreatedOn = ubpoDto.UbpoCreatedOn
             };
 
             _repositoryManager.UserBonusPointsRepository.Edit(ubpo);
-            return CreatedAtRoute("GetUbpo", new { id = ubpoDto.ubpo_id }, new UserBonusPointsDto
+            return CreatedAtRoute("GetUbpo", new { id = ubpoDto.UbpoId }, new UserBonusPointsDto
             {
-                ubpo_id = id,
-                ubpo_user_id = ubpo.ubpo_user_id,
-                ubpo_total_points = ubpo.ubpo_total_points,
-                ubpo_bonus_type = ubpo.ubpo_bonus_type,
-                ubpo_created_on = ubpo.ubpo_created_on
+                UbpoId = id,
+                UbpoUserId = ubpo.UbpoUserId,
+                UbpoTotalPoints = ubpo.UbpoTotalPoints,
+                UbpoBonusType = ubpo.UbpoBonusType,
+                UbpoCreatedOn = ubpo.UbpoCreatedOn
             });
 
         }

@@ -29,8 +29,8 @@ namespace Realta.WebAPI.Controllers
 
             var rolesDto = roles.Select(u => new RolesDto
             {
-                role_id = u.role_id,
-                role_name = u.role_name,
+                RoleId = u.RoleId,
+                RoleName = u.RoleName,
             });
 
             return Ok(rolesDto);
@@ -50,8 +50,8 @@ namespace Realta.WebAPI.Controllers
             }
             var rolesDto = new RolesDto
             {
-                role_id = roles.role_id,
-                role_name = roles.role_name
+                RoleId = roles.RoleId,
+                RoleName = roles.RoleName
             };
 
             return Ok(rolesDto);
@@ -69,12 +69,12 @@ namespace Realta.WebAPI.Controllers
 
             var roles = new Roles()
             {
-                role_id = rolesDto.role_id,
-                role_name = rolesDto.role_name
+                RoleId = rolesDto.RoleId,
+                RoleName = rolesDto.RoleName
             };
            
             _repositoryManager.RolesRepository.Insert(roles);
-            return CreatedAtRoute("GetRoles", new { id = rolesDto.role_id }, rolesDto);
+            return CreatedAtRoute("GetRoles", new { id = rolesDto.RoleId }, rolesDto);
 
         }
 
@@ -90,15 +90,15 @@ namespace Realta.WebAPI.Controllers
 
             var roles = new Roles()
             {
-                role_id = id,
-                role_name = rolesDto.role_name
+                RoleId = id,
+                RoleName = rolesDto.RoleName
             };
            
             _repositoryManager.RolesRepository.Edit(roles);
-            return CreatedAtRoute("GetRoles", new { id = rolesDto.role_id }, new RolesDto
+            return CreatedAtRoute("GetRoles", new { id = rolesDto.RoleId }, new RolesDto
             {
-                role_id = id,
-                role_name = roles.role_name
+                RoleId = id,
+                RoleName = roles.RoleName
             });
 
         }

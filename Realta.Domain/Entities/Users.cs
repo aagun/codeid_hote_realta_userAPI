@@ -13,12 +13,12 @@ namespace Realta.Domain.Entities
     public class Users
     {
         [Key]
-        public int user_id { get; set; }
-        public string user_full_name { get; set; }
-        public string? user_type { get; set; }
-        public string? user_company_name { get; set; }
-        public string? user_email { get; set; }
-        public string user_phone_number { get; set; }
-        public DateTime? user_modified_date { get; set; }
+        public int UserId { get; set; }
+        public string UserFullName { get; set; }
+        public string? UserType { get; set; }
+        public string? UserCompanyName { get; set; }
+        public string? UserEmail { get; set; }
+        public string UserPhoneNumber { get; set; }
+        public DateTime? UserModifiedDate { get; set; }
     }
 }

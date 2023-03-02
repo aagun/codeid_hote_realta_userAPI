@@ -30,14 +30,14 @@ namespace Realta.WebAPI.Controllers
             //use dto
             var usproDto = uspro.Select(u => new UserProfilesDto
             {
-                uspro_id = u.uspro_id,
-                uspro_national_id = u.uspro_national_id,
-                uspro_birth_date = u.uspro_birth_date,
-                uspro_job_title = u.uspro_job_title,
-                uspro_marital_status = u.uspro_marital_status,
-                uspro_gender = u.uspro_gender,
-                uspro_addr_id = u.uspro_addr_id,
-                uspro_user_id = u.uspro_user_id,
+                UsproId = u.UsproId,
+                UsproNationalId = u.UsproNationalId,
+                UsproBirthDate = u.UsproBirthDate,
+                UsproJobTitle = u.UsproJobTitle,
+                UsproMaritalStatus = u.UsproMaritalStatus,
+                UsproGender = u.UsproGender,
+                UsproAddrId = u.UsproAddrId,
+                UsproUserId = u.UsproUserId,
             });
 
             return Ok(usproDto);
@@ -56,14 +56,14 @@ namespace Realta.WebAPI.Controllers
 
             var usproDto = new UserProfilesDto
             {
-                uspro_id = uspro.uspro_id,
-                uspro_national_id = uspro.uspro_national_id,
-                uspro_birth_date = uspro.uspro_birth_date,
-                uspro_job_title = uspro.uspro_job_title,
-                uspro_marital_status = uspro.uspro_marital_status,
-                uspro_gender = uspro.uspro_gender,
-                uspro_user_id = uspro.uspro_user_id,
-                uspro_addr_id = uspro.uspro_addr_id
+                UsproId = uspro.UsproId,
+                UsproNationalId = uspro.UsproNationalId,
+                UsproBirthDate = uspro.UsproBirthDate,
+                UsproJobTitle = uspro.UsproJobTitle,
+                UsproMaritalStatus = uspro.UsproMaritalStatus,
+                UsproGender = uspro.UsproGender,
+                UsproUserId = uspro.UsproUserId,
+                UsproAddrId = uspro.UsproAddrId
             };
 
             return Ok(usproDto);
@@ -81,20 +81,20 @@ namespace Realta.WebAPI.Controllers
 
             var uspro = new UserProfiles()
             {
-                uspro_national_id = usproDto.uspro_national_id,
-                uspro_birth_date = usproDto.uspro_birth_date,
-                uspro_job_title = usproDto.uspro_job_title,
-                uspro_marital_status = usproDto.uspro_marital_status,
-                uspro_gender = usproDto.uspro_gender,
-                uspro_addr_id = usproDto.uspro_addr_id,
-                uspro_user_id = usproDto.uspro_user_id
+                UsproNationalId = usproDto.UsproNationalId,
+                UsproBirthDate = usproDto.UsproBirthDate,
+                UsproJobTitle = usproDto.UsproJobTitle,
+                UsproMaritalStatus = usproDto.UsproMaritalStatus,
+                UsproGender = usproDto.UsproGender,
+                UsproAddrId = usproDto.UsproAddrId,
+                UsproUserId = usproDto.UsproUserId
             };
            
             _repositoryManager.UserProfilesRepository.Insert(uspro);
 
-            var result = _repositoryManager.UserProfilesRepository.FindUserProfilesById(uspro.uspro_id);
+            var result = _repositoryManager.UserProfilesRepository.FindUserProfilesById(uspro.UsproId);
 
-            return CreatedAtRoute("GetUspro", new { id = uspro.uspro_id }, result);
+            return CreatedAtRoute("GetUspro", new { id = uspro.UsproId }, result);
         }
 
         // PUT api/<UserProfilesController>/5
@@ -110,28 +110,28 @@ namespace Realta.WebAPI.Controllers
 
             var uspro = new UserProfiles()
             {
-                uspro_id = id,
-                uspro_national_id = usproDto.uspro_national_id,
-                uspro_birth_date = usproDto.uspro_birth_date,
-                uspro_job_title = usproDto.uspro_job_title,
-                uspro_marital_status = usproDto.uspro_marital_status,
-                uspro_gender = usproDto.uspro_gender,
-                uspro_addr_id = usproDto.uspro_addr_id,
-                uspro_user_id = usproDto.uspro_user_id
+                UsproId = id,
+                UsproNationalId = usproDto.UsproNationalId,
+                UsproBirthDate = usproDto.UsproBirthDate,
+                UsproJobTitle = usproDto.UsproJobTitle,
+                UsproMaritalStatus = usproDto.UsproMaritalStatus,
+                UsproGender = usproDto.UsproGender,
+                UsproAddrId = usproDto.UsproAddrId,
+                UsproUserId = usproDto.UsproUserId
             };
          
             _repositoryManager.UserProfilesRepository.Edit(uspro);
 
-            return CreatedAtRoute("GetUspro", new { id = usproDto.uspro_id }, new UserProfilesDto
+            return CreatedAtRoute("GetUspro", new { id = usproDto.UsproId }, new UserProfilesDto
             {
-                uspro_id = id,
-                uspro_national_id = uspro.uspro_national_id,
-                uspro_birth_date = uspro.uspro_birth_date,
-                uspro_job_title = uspro.uspro_job_title,
-                uspro_marital_status = uspro.uspro_marital_status,
-                uspro_gender = uspro.uspro_gender,
-                uspro_addr_id = uspro.uspro_addr_id,
-                uspro_user_id = uspro.uspro_user_id
+                UsproId = id,
+                UsproNationalId = uspro.UsproNationalId,
+                UsproBirthDate = uspro.UsproBirthDate,
+                UsproJobTitle = uspro.UsproJobTitle,
+                UsproMaritalStatus = uspro.UsproMaritalStatus,
+                UsproGender = uspro.UsproGender,
+                UsproAddrId = uspro.UsproAddrId,
+                UsproUserId = uspro.UsproUserId
             });
 
         }

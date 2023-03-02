@@ -28,18 +28,18 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@uspaUserId",
                         DataType = DbType.Int32,
-                        Value = uspa.uspa_user_id
+                        Value = uspa.UspaUserId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@uspaPasswordHash",
                         DataType = DbType.String,
-                        Value = uspa.uspa_passwordHash
+                        Value = uspa.UspaPasswordHash
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@uspaPasswordSalt",
                         DataType = DbType.String,
-                        Value = uspa.uspa_passwordSalt
+                        Value = uspa.UspaPasswordSalt
                     }
                   
                 }
@@ -51,7 +51,8 @@ namespace Realta.Persistence.Repositories
 
         public IEnumerable<UserPassword> FindAllUserPassword()
         {
-            IEnumerator<UserPassword> dataSet = FindAll<UserPassword>("SELECT * FROM users.user_password");
+            IEnumerator<UserPassword> dataSet = FindAll<UserPassword>("SELECT uspa_user_id UspaUserId," +
+                "uspa_passwordHash UspaPasswordHash, uspa_passwordSalt UspaPasswordSalt FROM users.user_password");
 
             while (dataSet.MoveNext())
             {
@@ -88,7 +89,8 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "SELECT * FROM users.user_password where uspa_user_id=@uspaUserId;",
+                CommandText = "SELECT uspa_user_id UspaUserId, uspa_passwordHash UspaPasswordHash, uspa_passwordSalt UspaPasswordSalt " +
+                "FROM users.user_password where uspa_user_id=@uspaUserId;",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -123,18 +125,18 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@uspaUserId",
                         DataType = DbType.Int32,
-                        Value = uspa.uspa_user_id
+                        Value = uspa.UspaUserId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@uspaPasswordHash",
                         DataType = DbType.String,
-                        Value = uspa.uspa_passwordHash
+                        Value = uspa.UspaPasswordHash
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@uspaPasswordSalt",
                         DataType = DbType.String,
-                        Value = uspa.uspa_passwordSalt
+                        Value = uspa.UspaPasswordSalt
                     },
                
                 }
@@ -154,7 +156,7 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@uspaUserId",
                         DataType = DbType.Int32,
-                        Value = uspa.uspa_user_id
+                        Value = uspa.UspaUserId
                     }
                 }
             };

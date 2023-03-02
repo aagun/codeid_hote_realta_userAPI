@@ -28,8 +28,8 @@ namespace Realta.WebAPI.Controllers
             var usro = _repositoryManager.UserRolesRepository.FindAllUserRoles().ToList();
             var usroDto = usro.Select(u => new UserRolesDto
             {
-                usro_user_id = u.usro_user_id,
-                usro_role_id = u.usro_role_id,
+                UsroUserId = u.UsroUserId,
+                UsroRoleId = u.UsroRoleId,
             });
 
             return Ok(usroDto);
@@ -50,8 +50,8 @@ namespace Realta.WebAPI.Controllers
             }
             var usroDto = new UserRolesDto
             {
-                usro_user_id = usro.usro_user_id,
-                usro_role_id = usro.usro_role_id,
+                UsroUserId = usro.UsroUserId,
+                UsroRoleId = usro.UsroRoleId,
             };
 
             return Ok(usroDto);
@@ -69,12 +69,12 @@ namespace Realta.WebAPI.Controllers
 
             var usro = new UserRoles()
             {
-                usro_user_id = usroDto.usro_user_id,
-                usro_role_id = usroDto.usro_role_id
+                UsroUserId = usroDto.UsroUserId,
+                UsroRoleId = usroDto.UsroRoleId
             };
            
             _repositoryManager.UserRolesRepository.Insert(usro);
-            return CreatedAtRoute("GetUsro", new { id = usroDto.usro_user_id }, usroDto);
+            return CreatedAtRoute("GetUsro", new { id = usroDto.UsroUserId }, usroDto);
      
         }
 
@@ -90,15 +90,15 @@ namespace Realta.WebAPI.Controllers
 
             var usro = new UserRoles()
             {
-                usro_user_id = id,
-                usro_role_id = usroDto.usro_role_id
+                UsroUserId = id,
+                UsroRoleId = usroDto.UsroRoleId
             };
 
             _repositoryManager.UserRolesRepository.Edit(usro);
-            return CreatedAtRoute("GetUsro", new { id = usroDto.usro_user_id }, new UserRolesDto
+            return CreatedAtRoute("GetUsro", new { id = usroDto.UsroUserId }, new UserRolesDto
             {
-                usro_user_id = id,
-                usro_role_id = usro.usro_role_id
+                UsroUserId = id,
+                UsroRoleId = usro.UsroRoleId
             });
            
         }

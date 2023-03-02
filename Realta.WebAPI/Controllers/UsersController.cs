@@ -31,13 +31,14 @@ namespace Realta.WebAPI.Controllers
             //use dto
             var usersDto = users.Select(u => new UsersDto
             {
-                user_id = u.user_id,
-                user_full_name = u.user_full_name,
-                user_type = u.user_type,
-                user_company_name = u.user_company_name,
-                user_email = u.user_email,
-                user_phone_number = u.user_phone_number,
-                user_modified_date = u.user_modified_date,
+                UserId = u.UserId,
+                UserFullName = u.UserFullName,
+                UserType = u.UserType,
+                UserCompanyName = u.UserCompanyName,
+                UserEmail = u.UserEmail,
+                UserPhoneNumber = u.UserPhoneNumber,
+                UserModifiedDate = u.UserModifiedDate,
+             
             });
 
             return Ok(usersDto);
@@ -56,13 +57,14 @@ namespace Realta.WebAPI.Controllers
 
             var usersDto = new UsersDto
             {
-                user_id = users.user_id,
-                user_full_name = users.user_full_name,
-                user_type = users.user_type,
-                user_company_name = users.user_company_name,
-                user_email = users.user_email,
-                user_phone_number = users.user_phone_number,
-                user_modified_date = users.user_modified_date
+                UserId = users.UserId,
+                UserFullName = users.UserFullName,
+                UserType = users.UserType,
+                UserCompanyName = users.UserCompanyName,
+                UserEmail = users.UserEmail,
+                UserPhoneNumber = users.UserPhoneNumber,
+                UserModifiedDate = users.UserModifiedDate,
+               
             };
 
             return Ok(usersDto);
@@ -81,19 +83,20 @@ namespace Realta.WebAPI.Controllers
             var users = new Users()
             {
               
-                user_full_name = usersDto.user_full_name,
-                user_type = usersDto.user_type,
-                user_company_name = usersDto.user_company_name,
-                user_email = usersDto.user_email,
-                user_phone_number = usersDto.user_phone_number,
-                user_modified_date = usersDto.user_modified_date
+                UserFullName = usersDto.UserFullName,
+                UserType = usersDto.UserType,
+                UserCompanyName = usersDto.UserCompanyName,
+                UserEmail = usersDto.UserEmail,
+                UserPhoneNumber = usersDto.UserPhoneNumber,
+                UserModifiedDate = usersDto.UserModifiedDate
+               
             };
 
             _repositoryManager.UsersRepository.Insert(users);
 
-            var result = _repositoryManager.UsersRepository.FindUsersById(users.user_id);
+            var result = _repositoryManager.UsersRepository.FindUsersById(users.UserId);
 
-            return CreatedAtRoute("GetUsers", new { id = users.user_id }, result);
+            return CreatedAtRoute("GetUsers", new { id = users.UserId }, result);
         }
 
         // PUT api/<UsersController>/5
@@ -109,26 +112,27 @@ namespace Realta.WebAPI.Controllers
 
             var users = new Users()
             {
-                user_id = id,
-                user_full_name = usersDto.user_full_name,
-                user_type = usersDto.user_type,
-                user_company_name = usersDto.user_company_name,
-                user_email = usersDto.user_email,
-                user_phone_number = usersDto.user_phone_number,
-
+                UserId = id,
+                UserFullName = usersDto.UserFullName,
+                UserType = usersDto.UserType,
+                UserCompanyName = usersDto.UserCompanyName,
+                UserEmail = usersDto.UserEmail,
+                UserPhoneNumber = usersDto.UserPhoneNumber,
+                UserModifiedDate = usersDto.UserModifiedDate
             };
 
             _repositoryManager.UsersRepository.Edit(users);
 
-            return CreatedAtRoute("GetUsers", new { id = usersDto.user_id }, new UsersDto 
+            return CreatedAtRoute("GetUsers", new { id = usersDto.UserId }, new UsersDto 
             { 
-                user_id = id, 
-                user_full_name = users.user_full_name, 
-                user_type = users.user_type, 
-                user_company_name = users.user_company_name, 
-                user_email = users.user_email, 
-                user_phone_number = users.user_phone_number, 
-                user_modified_date = users.user_modified_date 
+                UserId = id,
+                UserFullName = users.UserFullName,
+                UserType = users.UserType,
+                UserCompanyName = users.UserCompanyName,
+                UserEmail = users.UserEmail,
+                UserPhoneNumber = users.UserPhoneNumber,
+                UserModifiedDate = users.UserModifiedDate
+               
             });
         }
 

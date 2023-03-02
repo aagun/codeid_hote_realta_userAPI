@@ -27,12 +27,12 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@roleId",
                         DataType = DbType.Int32,
-                        Value = roles.role_id
+                        Value = roles.RoleId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@roleName",
                         DataType = DbType.String,
-                        Value = roles.role_name
+                        Value = roles.RoleName
                     }
 
                 }
@@ -44,7 +44,7 @@ namespace Realta.Persistence.Repositories
 
         public IEnumerable<Roles> FindAllRoles()
         {
-            IEnumerator<Roles> dataSet = FindAll<Roles>("SELECT * FROM users.roles");
+            IEnumerator<Roles> dataSet = FindAll<Roles>("SELECT role_id RoleId, role_name RoleName FROM users.roles");
 
             while (dataSet.MoveNext())
             {
@@ -81,7 +81,7 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "SELECT * FROM users.roles where role_id=@roleId;",
+                CommandText = "SELECT role_id RoleId, role_name RoleName FROM users.roles where role_id=@roleId;",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -116,12 +116,12 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@roleId",
                         DataType = DbType.Int32,
-                        Value = roles.role_id
+                        Value = roles.RoleId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@roleName",
                         DataType = DbType.String,
-                        Value = roles.role_name
+                        Value = roles.RoleName
                     },
 
                 }
@@ -141,7 +141,7 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@roleId",
                         DataType = DbType.Int32,
-                        Value = roles.role_id
+                        Value = roles.RoleId
                     }
                 }
             };

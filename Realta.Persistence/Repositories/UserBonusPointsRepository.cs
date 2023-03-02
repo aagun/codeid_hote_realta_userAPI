@@ -28,29 +28,29 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@ubpoId",
                         DataType = DbType.Int32,
-                        Value = ubpo.ubpo_id
+                        Value = ubpo.UbpoId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@ubpoUserId",
-                        DataType = DbType.Int16,
-                        Value = ubpo.ubpo_user_id
+                        DataType = DbType.Int32,
+                        Value = ubpo.UbpoUserId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@ubpoTotalPoints",
-                        DataType = DbType.Int16,
-                        Value = ubpo.ubpo_total_points
+                        DataType = DbType.Int32,
+                        Value = ubpo.UbpoTotalPoints
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@ubpoBonusType",
                         DataType = DbType.String,
-                        Value = ubpo.ubpo_bonus_type
+                        Value = ubpo.UbpoBonusType
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@ubpoCreatedOn",
                         DataType = DbType.DateTime,
-                        Value = ubpo.ubpo_created_on
+                        Value = ubpo.UbpoCreatedOn
                     }
                 }
             };
@@ -61,7 +61,8 @@ namespace Realta.Persistence.Repositories
 
         public IEnumerable<UserBonusPoints> FindAllUserBonusPoints()
         {
-            IEnumerator<UserBonusPoints> dataSet = FindAll<UserBonusPoints>("SELECT * FROM users.bonus_points");
+            IEnumerator<UserBonusPoints> dataSet = FindAll<UserBonusPoints>("SELECT ubpo_id UbpoId, ubpo_user_id UbpoUserId," +
+                "ubpo_total_points UbpoTotalPoints, ubpo_bonus_type UbpoBonusType, ubpo_created_on UbpoCreatedOn FROM users.bonus_points");
 
             while (dataSet.MoveNext())
             {
@@ -97,7 +98,8 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "SELECT * FROM users.bonus_points where ubpo_id=@ubpoId;",
+                CommandText = "SELECT ubpo_id UbpoId, ubpo_user_id UbpoUserId, ubpo_total_points UbpoTotalPoints," +
+                "ubpo_bonus_type UbpoBonusType, ubpo_created_on UbpoCreatedOn FROM users.bonus_points where ubpo_id=@ubpoId;",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -131,30 +133,30 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@ubpoUserId",
                         DataType = DbType.Int16,
-                        Value = ubpo.ubpo_user_id
+                        Value = ubpo.UbpoUserId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@ubpoTotalPoints",
                         DataType = DbType.Int16,
-                        Value = ubpo.ubpo_total_points
+                        Value = ubpo.UbpoTotalPoints
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@ubpoBonusType",
                         DataType = DbType.String,
-                        Value = ubpo.ubpo_bonus_type
+                        Value = ubpo.UbpoBonusType
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@ubpoCreatedOn",
                         DataType = DbType.DateTime,
-                        Value = ubpo.ubpo_created_on
+                        Value = ubpo.UbpoCreatedOn
                     }
                     
                 }
             };
 
-            ubpo.ubpo_id = _adoContext.ExecuteScalar<int>(model);
+            ubpo.UbpoId = _adoContext.ExecuteScalar<int>(model);
             _adoContext.Dispose();
         }
 
@@ -168,7 +170,7 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@ubpoId",
                         DataType = DbType.Int32,
-                        Value = ubpo.ubpo_id
+                        Value = ubpo.UbpoId
                     }
                 }
             };

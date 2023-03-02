@@ -29,9 +29,9 @@ namespace Realta.WebAPI.Controllers
 
             var uspaDto = uspa.Select(u => new UserPasswordDto
             {
-                uspa_user_id = u.uspa_user_id,
-                uspa_passwordHash = u.uspa_passwordHash,
-                uspa_passwordSalt = u.uspa_passwordSalt,
+                UspaUserId = u.UspaUserId,
+                UspaPasswordHash = u.UspaPasswordHash,
+                UspaPasswordSalt = u.UspaPasswordSalt,
             });
 
             return Ok(uspaDto);
@@ -50,9 +50,9 @@ namespace Realta.WebAPI.Controllers
             }
             var uspaDto = new UserPasswordDto
             {
-                uspa_user_id = uspa.uspa_user_id,
-                uspa_passwordHash = uspa.uspa_passwordHash,
-                uspa_passwordSalt = uspa.uspa_passwordSalt,
+                UspaUserId = uspa.UspaUserId,
+                UspaPasswordHash = uspa.UspaPasswordHash,
+                UspaPasswordSalt = uspa.UspaPasswordSalt,
             };
 
             return Ok(uspaDto);
@@ -71,13 +71,13 @@ namespace Realta.WebAPI.Controllers
 
             var uspa = new UserPassword()
             {
-                uspa_user_id = uspaDto.uspa_user_id,
-                uspa_passwordHash = uspaDto.uspa_passwordHash,
-                uspa_passwordSalt = uspaDto.uspa_passwordSalt
+                UspaUserId = uspaDto.UspaUserId,
+                UspaPasswordHash = uspaDto.UspaPasswordHash,
+                UspaPasswordSalt = uspaDto.UspaPasswordSalt
             };
            
             _repositoryManager.UserPasswordRepository.Insert(uspa);
-            return CreatedAtRoute("GetUspa", new { id = uspaDto.uspa_user_id }, uspaDto);
+            return CreatedAtRoute("GetUspa", new { id = uspaDto.UspaUserId }, uspaDto);
 
         }
 
@@ -93,17 +93,17 @@ namespace Realta.WebAPI.Controllers
 
             var uspa = new UserPassword()
             {
-                uspa_user_id = id,
-                uspa_passwordHash = uspaDto.uspa_passwordHash,
-                uspa_passwordSalt = uspaDto.uspa_passwordSalt
+                UspaUserId = id,
+                UspaPasswordHash = uspaDto.UspaPasswordHash,
+                UspaPasswordSalt = uspaDto.UspaPasswordSalt
             };
           
             _repositoryManager.UserPasswordRepository.Edit(uspa);
-            return CreatedAtRoute("GetUspa", new { id = uspaDto.uspa_user_id }, new UserPasswordDto
+            return CreatedAtRoute("GetUspa", new { id = uspaDto.UspaUserId }, new UserPasswordDto
             {
-                uspa_user_id = id,
-                uspa_passwordHash = uspa.uspa_passwordHash,
-                uspa_passwordSalt = uspa.uspa_passwordSalt
+                UspaUserId = id,
+                UspaPasswordHash = uspa.UspaPasswordHash,
+                UspaPasswordSalt = uspa.UspaPasswordSalt
             });
 
         }

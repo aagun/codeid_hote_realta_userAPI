@@ -30,47 +30,47 @@ namespace Realta.Persistence.Repositories
                     {
                         ParameterName = "@usproId",
                         DataType = DbType.Int16,
-                        Value = uspro.uspro_id
+                        Value = uspro.UsproId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@usproNationalId",
                         DataType = DbType.String,
-                        Value = uspro.uspro_national_id
+                        Value = uspro.UsproNationalId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@usproBirthDate",
                         DataType = DbType.DateTime,
-                        Value = uspro.uspro_birth_date
+                        Value = uspro.UsproBirthDate
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usproJobTitle",
                         DataType = DbType.String,
-                        Value = uspro.uspro_job_title
+                        Value = uspro.UsproJobTitle
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usproMaritalStatus",
                         DataType = DbType.String,
-                        Value = uspro.uspro_marital_status
+                        Value = uspro.UsproMaritalStatus
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usproGender",
                         DataType = DbType.String,
-                        Value = uspro.uspro_gender
+                        Value = uspro.UsproGender
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usproAddrId",
                         DataType = DbType.Int16,
-                        Value = uspro.uspro_addr_id
+                        Value = uspro.UsproAddrId
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usproUserId",
                         DataType = DbType.Int16,
-                        Value = uspro.uspro_user_id
+                        Value = uspro.UsproUserId
                     }
                 }
             };
@@ -81,7 +81,9 @@ namespace Realta.Persistence.Repositories
 
         public IEnumerable<UserProfiles> FindAllUserProfiles()
         {
-            IEnumerator<UserProfiles> dataSet = FindAll<UserProfiles>("SELECT * FROM users.user_profiles");
+            IEnumerator<UserProfiles> dataSet = FindAll<UserProfiles>("SELECT uspro_id UsproId, uspro_national_id UsproNationalId," +
+                "uspro_birth_date UsproBirthDate, uspro_job_title UsproJobTitle, uspro_marital_status UsproMaritalStatus," +
+                "uspro_gender UsproGender, uspro_addr_id UsproAddrId, uspro_user_id UsproUserId FROM users.user_profiles");
 
             while (dataSet.MoveNext())
             {
@@ -118,7 +120,9 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "SELECT * FROM users.user_profiles where uspro_id=@usproId;",
+                CommandText = "SELECT uspro_id UsproId, uspro_national_id UsproNationalId, uspro_birth_date UsproBirthDate," +
+                "uspro_job_title UsproJobTitle, uspro_marital_status UsproMaritalStatus, uspro_gender UsproGender," +
+                "uspro_addr_id UsproAddrId, uspro_user_id UsproUserId FROM users.user_profiles where uspro_id=@usproId;",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -153,47 +157,47 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@usproNationalId",
                         DataType = DbType.String,
-                        Value = uspro.uspro_national_id
+                        Value = uspro.UsproNationalId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@usproBirthDate",
                         DataType = DbType.DateTime,
-                        Value = uspro.uspro_birth_date
+                        Value = uspro.UsproBirthDate
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usproJobTitle",
                         DataType = DbType.String,
-                        Value = uspro.uspro_job_title
+                        Value = uspro.UsproJobTitle
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usproMaritalStatus",
                         DataType = DbType.String,
-                        Value = uspro.uspro_marital_status
+                        Value = uspro.UsproMaritalStatus
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usproGender",
                         DataType = DbType.String,
-                        Value = uspro.uspro_gender
+                        Value = uspro.UsproGender
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usproAddrId",
                         DataType = DbType.Int16,
-                        Value = uspro.uspro_addr_id
+                        Value = uspro.UsproAddrId
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usproUserId",
                         DataType = DbType.Int16,
-                        Value = uspro.uspro_user_id
+                        Value = uspro.UsproUserId
                     }
                 }
             };
 
-            uspro.uspro_id = _adoContext.ExecuteScalar<int>(model);
+            uspro.UsproId = _adoContext.ExecuteScalar<int>(model);
             _adoContext.Dispose();
         }
 
@@ -207,7 +211,7 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@usproId",
                         DataType = DbType.Int32,
-                        Value = uspro.uspro_id
+                        Value = uspro.UsproId
                     }
                 }
             };

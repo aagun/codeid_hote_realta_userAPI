@@ -28,30 +28,30 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@usmeUserId",
                         DataType = DbType.Int32,
-                        Value = usme.usme_user_id
+                        Value = usme.UsmeUserId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@usmeMembName",
                         DataType = DbType.String,
-                        Value = usme.usme_memb_name
+                        Value = usme.UsmeMembName
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usmePromoteDate",
                         DataType = DbType.DateTime,
-                        Value = usme.usme_promote_date
+                        Value = usme.UsmePromoteDate
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usmePoints",
                         DataType = DbType.Int16,
-                        Value = usme.usme_points
+                        Value = usme.UsmePoints
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usmeType",
                         DataType = DbType.String,
-                        Value = usme.usme_type
+                        Value = usme.UsmeType
                     }
                 }
             };
@@ -62,7 +62,8 @@ namespace Realta.Persistence.Repositories
 
         public IEnumerable<UserMembers> FindAllUserMembers()
         {
-            IEnumerator<UserMembers> dataSet = FindAll<UserMembers>("SELECT * FROM users.user_members");
+            IEnumerator<UserMembers> dataSet = FindAll<UserMembers>("SELECT usme_user_id UsmeUserId, usme_memb_name UsmeMembName," +
+                "usme_promote_date UsmePromoteDate, usme_points UsmePoints, usme_type UsmeType FROM users.user_members");
 
             while (dataSet.MoveNext())
             {
@@ -99,7 +100,8 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "SELECT * FROM users.user_members where usme_user_id=@usmeUserId;",
+                CommandText = "SELECT usme_user_id UsmeUserId, usme_memb_name UsmeMembName, usme_promote_date UsmePromoteDate," +
+                "usme_points UsmePoints, usme_type UsmeType FROM users.user_members where usme_user_id=@usmeUserId;",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -132,30 +134,30 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@usmeUserId",
                         DataType = DbType.Int32,
-                        Value = usme.usme_user_id
+                        Value = usme.UsmeUserId
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@usmeMembName",
                         DataType = DbType.String,
-                        Value = usme.usme_memb_name
+                        Value = usme.UsmeMembName
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usmePromoteDate",
                         DataType = DbType.DateTime,
-                        Value = usme.usme_promote_date
+                        Value = usme.UsmePromoteDate
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usmePoints",
                         DataType = DbType.Int16,
-                        Value = usme.usme_points
+                        Value = usme.UsmePoints
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@usmeType",
                         DataType = DbType.String,
-                        Value = usme.usme_type
+                        Value = usme.UsmeType
                     }
                 }
             };
@@ -174,7 +176,7 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                         ParameterName = "@usmeUserId",
                         DataType = DbType.Int32,
-                        Value = usme.usme_user_id
+                        Value = usme.UsmeUserId
                     }
                 }
             };

@@ -8,8 +8,8 @@ namespace Realta.Contract.Models
 {
     public class UserPasswordDto
     {
-        public int uspa_user_id { get; set; }
-        public string uspa_passwordHash { get; set; }
-        public string uspa_passwordSalt { get; set; }
+        public int UspaUserId { get; set; }
+        public string UspaPasswordHash { get; set; }
+        public string UspaPasswordSalt { get; set; }
     }
 }

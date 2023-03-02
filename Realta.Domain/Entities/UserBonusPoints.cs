@@ -11,11 +11,11 @@ namespace Realta.Domain.Entities
     public class UserBonusPoints
     {
         [Key]
-        public int ubpo_id { get; set; }
-        public int ubpo_user_id { get; set; }
+        public int UbpoId { get; set; }
+        public int UbpoUserId { get; set; }
         [ForeignKey("Users")]
-        public Int16? ubpo_total_points { get; set; }
-        public string? ubpo_bonus_type { get; set; }
-        public DateTime? ubpo_created_on { get; set; }
+        public Int16? UbpoTotalPoints { get; set; }
+        public string? UbpoBonusType { get; set; }
+        public DateTime? UbpoCreatedOn { get; set; }
     }
 }
