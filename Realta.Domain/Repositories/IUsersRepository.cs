@@ -1,4 +1,6 @@
-﻿using Realta.Domain.Entities;
+﻿using Realta.Domain.Dto;
+using Realta.Domain.Entities;
+using Realta.Domain.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,8 @@ namespace Realta.Domain.Repositories
         IEnumerable<Users> FindAllUsers();
 
         Task<IEnumerable<Users>> FindAllUsersAsync();
-
+        UsersNestedUspro GetUsersUspro(int userId);
+        Task<IEnumerable<Users>> GetUsersPaging(UsersParameters usersParameters);
 
         Users FindUsersById(int usersId);
 

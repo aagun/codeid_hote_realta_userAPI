@@ -2,6 +2,7 @@
 using Realta.Contract.Models;
 using Realta.Domain.Base;
 using Realta.Domain.Entities;
+using Realta.Domain.RequestFeatures;
 using Realta.Services.Abstraction;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -44,12 +45,28 @@ namespace Realta.WebAPI.Controllers
             return Ok(usersDto);
         }
 
+        // Get Users Paging
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetUsersPaging([FromQuery] UsersParameters usersParameters)
+        {
+            var users = await _repositoryManager.UsersRepository.GetUsersPaging(usersParameters);
+            return Ok(users);
+        }
+
+        //GET api/User-Uspro
+        [HttpGet("uspro/{id}")]
+        public IActionResult GetUsproById(int id) 
+        {
+            var userUspro = _repositoryManager.UsersRepository.GetUsersUspro(id);
+            return Ok(userUspro);
+        }
+
         // GET api/<UsersController>/5
         [HttpGet("{id}", Name = "GetUsers")]
         public IActionResult FindUsersById(int id)
         {
             var users = _repositoryManager.UsersRepository.FindUsersById(id);
-            if(users == null)
+            if (users == null)
             {
                 _logger.LogError("User object sent from client is null");
                 return BadRequest("User object is null");
@@ -64,7 +81,7 @@ namespace Realta.WebAPI.Controllers
                 UserEmail = users.UserEmail,
                 UserPhoneNumber = users.UserPhoneNumber,
                 UserModifiedDate = users.UserModifiedDate,
-               
+
             };
 
             return Ok(usersDto);

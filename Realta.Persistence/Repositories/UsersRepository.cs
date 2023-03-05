@@ -1,5 +1,7 @@
-﻿using Realta.Domain.Entities;
+﻿using Realta.Domain.Dto;
+using Realta.Domain.Entities;
 using Realta.Domain.Repositories;
+using Realta.Domain.RequestFeatures;
 using Realta.Persistence.Base;
 using Realta.Persistence.RepositoryContext;
 using System;
@@ -136,6 +138,108 @@ namespace Realta.Persistence.Repositories
                 item = dataSet.Current;
             }
             return item;
+        }
+
+        public async Task<IEnumerable<Users>> GetUsersPaging(UsersParameters usersParameters)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = @"SELECT user_id UserId, user_full_name UserFullName, user_type UserType,
+                                user_company_name UserCompanyName, user_email UserEmail, user_phone_number UserPhoneNumber,
+                                user_modified_date UserModifiedDate FROM users.users order by user_id
+                                OFFSET @pageNo ROWS FETCH NEXT  @pageSize ROWS ONLY",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                            ParameterName = "@pageNo",
+                            DataType = DbType.Int32,
+                            Value = usersParameters.PageNumber
+                        },
+                     new SqlCommandParameterModel() {
+                            ParameterName = "@pageSize",
+                            DataType = DbType.Int32,
+                            Value = usersParameters.PageSize
+                        }
+                }
+
+            };
+
+            IAsyncEnumerator<Users> dataSet = FindAllAsync<Users>(model);
+
+            var item = new List<Users>();
+
+            while (await dataSet.MoveNextAsync())
+            {
+                item.Add(dataSet.Current);
+            }
+
+            return item;
+        }
+
+        public UsersNestedUspro GetUsersUspro(int userId)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = @"SELECT u.user_id UserId, u.user_full_name UserFullName, u.user_type UserType, u.user_phone_number UserPhoneNumber, 
+                                u.user_email UserEmail, u.user_company_name UserCompanyName, p.uspro_national_id UsproNationalId, 
+                                p.uspro_job_title UsproJobTitle, p.uspro_gender UsproGender, p.uspro_birth_date UsproBirthDate, 
+                                p.uspro_marital_status UsproMaritalStatus
+                                FROM users.users u
+                                JOIN users.user_profiles p
+                                ON u.user_id=p.uspro_user_id
+                                WHERE u.user_id=@userId",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                            ParameterName = "@userId",
+                            DataType = DbType.Int32,
+                            Value = userId
+                        },
+                   
+                }
+
+            };
+
+            var dataSet = FindByCondition<UsersJoinUspro>(model);
+
+            var listData = new List<UsersJoinUspro>();
+
+            while (dataSet.MoveNext())
+            {
+                listData.Add(dataSet.Current);
+            }
+
+            var users = listData.Select(x => new 
+            {
+                x.UserId, 
+                x.UserFullName, 
+                x.UserType, 
+                x.UserPhoneNumber, 
+                x.UserEmail, 
+                x.UserCompanyName
+            }).FirstOrDefault();
+
+            var uspro = listData.Select(x => new UserProfiles
+            {
+                UsproNationalId = x.UsproNationalId,
+                UsproJobTitle = x.UsproJobTitle,
+                UsproGender = x.UsproGender,
+                UsproBirthDate = x.UsproBirthDate,
+                UsproMaritalStatus = x.UsproMaritalStatus,
+            });
+
+            var nestedJson = new UsersNestedUspro
+            {
+                UserId = users.UserId,
+                UserFullName = users.UserFullName,
+                UserType = users.UserType,
+                UserPhoneNumber = users.UserPhoneNumber,
+                UserEmail = users.UserEmail,
+                UserCompanyName = users.UserCompanyName,
+                UserProfiles = uspro.ToList()
+            };
+
+            return nestedJson;
         }
 
         public void Insert(Users users)

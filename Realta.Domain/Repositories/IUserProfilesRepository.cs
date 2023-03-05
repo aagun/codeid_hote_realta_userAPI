@@ -1,4 +1,5 @@
 ﻿using Realta.Domain.Entities;
+using Realta.Domain.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Realta.Domain.Repositories
         IEnumerable<UserProfiles> FindAllUserProfiles();
 
         Task<IEnumerable<UserProfiles>> FindAllUserProfilesAsync();
-
+        Task<PagedList<UserProfiles>> GetUserProfilesPageList(UsproParameters usproParameters);
 
         UserProfiles FindUserProfilesById(int usproId);
 
