@@ -11,9 +11,13 @@ namespace Realta.Domain.Repositories
 {
     public interface IUsersRepository
     {
+        bool SignIn(string userEmail, string userPassword);
+
+        string SignOut(string userName, string userPassword);
         IEnumerable<Users> FindAllUsers();
 
         Task<IEnumerable<Users>> FindAllUsersAsync();
+        Users FindUserByEmail(string userEmail);
         UsersNestedUspro GetUsersUspro(int userId);
         Task<IEnumerable<Users>> GetUsersPaging(UsersParameters usersParameters);
 
@@ -23,6 +27,7 @@ namespace Realta.Domain.Repositories
         void Insert(Users users);
 
         void Edit(Users users);
+        void Update(UsersJoinUspro profiles);
 
         void Remove(Users users);
     }

@@ -13,7 +13,7 @@ namespace Realta.Domain.Repositories
         IEnumerable<UserProfiles> FindAllUserProfiles();
 
         Task<IEnumerable<UserProfiles>> FindAllUserProfilesAsync();
-        Task<PagedList<UserProfiles>> GetUserProfilesPageList(UsproParameters usproParameters);
+        Task<PagedList<UserProfiles>> GetUserProfilesPageList(UsersParameters usersParameters);
 
         UserProfiles FindUserProfilesById(int usproId);
 

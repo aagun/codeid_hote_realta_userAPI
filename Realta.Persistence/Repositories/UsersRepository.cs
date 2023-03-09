@@ -111,6 +111,33 @@ namespace Realta.Persistence.Repositories
             return item;
         }
 
+        public Users FindUserByEmail(string userEmail)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "SELECT user_id UserId, user_email UserEmail FROM users.users where user_email=@userEmail;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userEmail",
+                        DataType = DbType.String,
+                        Value = userEmail
+                    }
+                }
+            };
+
+            var dataSet = FindByCondition<Users>(model);
+
+            Users? item = dataSet.Current ?? null;
+
+            while (dataSet.MoveNext())
+            {
+                item = dataSet.Current;
+            }
+
+
+            return item;
+        }
 
         public Users FindUsersById(int usersId)
         {
@@ -181,9 +208,9 @@ namespace Realta.Persistence.Repositories
             SqlCommandModel model = new SqlCommandModel()
             {
                 CommandText = @"SELECT u.user_id UserId, u.user_full_name UserFullName, u.user_type UserType, u.user_phone_number UserPhoneNumber, 
-                                u.user_email UserEmail, u.user_company_name UserCompanyName, p.uspro_national_id UsproNationalId, 
-                                p.uspro_job_title UsproJobTitle, p.uspro_gender UsproGender, p.uspro_birth_date UsproBirthDate, 
-                                p.uspro_marital_status UsproMaritalStatus
+                                u.user_email UserEmail, u.user_company_name UserCompanyName, p.uspro_id UsproId, p.uspro_user_id UsproUserId, 
+                                p.uspro_addr_id UsproAddrId, p.uspro_national_id UsproNationalId, p.uspro_job_title UsproJobTitle, 
+                                p.uspro_gender UsproGender, p.uspro_birth_date UsproBirthDate, p.uspro_marital_status UsproMaritalStatus
                                 FROM users.users u
                                 JOIN users.user_profiles p
                                 ON u.user_id=p.uspro_user_id
@@ -221,6 +248,9 @@ namespace Realta.Persistence.Repositories
 
             var uspro = listData.Select(x => new UserProfiles
             {
+                UsproId = x.UsproId,
+                UsproUserId = x.UsproUserId,
+                UsproAddrId = x.UsproAddrId,
                 UsproNationalId = x.UsproNationalId,
                 UsproJobTitle = x.UsproJobTitle,
                 UsproGender = x.UsproGender,
@@ -309,6 +339,120 @@ namespace Realta.Persistence.Repositories
                         Value = users.UserId
                     }
                 }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
+        }
+
+        public bool SignIn(string userEmail, string userPassword)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "users.SignIn",
+                CommandType = CommandType.StoredProcedure,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userEmail",
+                        DataType = DbType.String,
+                        Value = userEmail
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userPassword",
+                        DataType = DbType.String,
+                        Value = userPassword
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@responseMessage",
+                        DataType = DbType.String
+                    }
+                }
+            };
+
+            string result = _adoContext.ExecuteStoreProcedure(model, "@responseMessage", 250);
+            _adoContext.Dispose();
+
+
+            return result == "User successfully logged in" ? true : false;
+        }
+
+        public string SignOut(string userName, string userPassword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(UsersJoinUspro profiles)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "[users].[UpdateProfile]",
+                CommandType = CommandType.StoredProcedure,
+                CommandParameters = new SqlCommandParameterModel[] {
+            new SqlCommandParameterModel() {
+                ParameterName = "@user_id",
+                DataType = DbType.Int32,
+                Value = profiles.UserId
+            },
+            new SqlCommandParameterModel() {
+                ParameterName = "@user_full_name",
+                DataType = DbType.String,
+                Value = profiles.UserFullName
+            },
+            new SqlCommandParameterModel()
+            {
+                ParameterName = "@user_type",
+                DataType = DbType.String,
+                Value = profiles.UserType
+            },
+            new SqlCommandParameterModel()
+            {
+                ParameterName = "@user_company_name",
+                DataType = DbType.String,
+                Value = profiles.UserCompanyName
+            },
+            new SqlCommandParameterModel()
+            {
+                ParameterName = "@user_email",
+                DataType = DbType.String,
+                Value = profiles.UserEmail
+            },
+            new SqlCommandParameterModel()
+            {
+                ParameterName = "@user_phone_number",
+                DataType = DbType.String,
+                Value = profiles.UserPhoneNumber
+            },
+            new SqlCommandParameterModel()
+            {
+                ParameterName = "@uspro_national_id",
+                DataType = DbType.String,
+                Value = profiles.UsproNationalId
+            },
+            new SqlCommandParameterModel()
+            {
+                ParameterName = "@uspro_birth_date",
+                DataType = DbType.Date,
+                Value = profiles.UsproBirthDate
+            },
+            new SqlCommandParameterModel()
+            {
+                ParameterName = "@uspro_job_title",
+                DataType = DbType.String,
+                Value = profiles.UsproJobTitle
+            },
+            new SqlCommandParameterModel()
+            {
+                ParameterName = "@uspro_marital_status",
+                DataType = DbType.String,
+                Value = profiles.UsproMaritalStatus
+            },
+            new SqlCommandParameterModel()
+            {
+                ParameterName = "@uspro_gender",
+                DataType = DbType.String,
+                Value = profiles.UsproGender
+            }
+        }
             };
 
             _adoContext.ExecuteNonQuery(model);

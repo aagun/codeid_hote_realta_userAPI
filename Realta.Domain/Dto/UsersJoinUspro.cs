@@ -15,6 +15,8 @@ namespace Realta.Domain.Dto
         public string? UserCompanyName { get; set; }
         public string? UserEmail { get; set; }
         public string UserPhoneNumber { get; set; }
+        public int UsproId { get; set; }
+        public int UsproAddrId { get; set; }
         public int UsproUserId { get; set; }
         public string UsproNationalId { get; set; }
         public DateTime UsproBirthDate { get; set; }

@@ -145,7 +145,7 @@ namespace Realta.Persistence.Repositories
             return item;
         }
 
-        public async Task<PagedList<UserProfiles>> GetUserProfilesPageList(UsproParameters usproParameters)
+        public async Task<PagedList<UserProfiles>> GetUserProfilesPageList(UsersParameters usersParameters)
         {
             SqlCommandModel model = new SqlCommandModel()
             {
@@ -158,12 +158,12 @@ namespace Realta.Persistence.Repositories
                     new SqlCommandParameterModel() {
                             ParameterName = "@pageNo",
                             DataType = DbType.Int32,
-                            Value = usproParameters.PageNumber
+                            Value = usersParameters.PageNumber
                         },
                      new SqlCommandParameterModel() {
                             ParameterName = "@pageSize",
                             DataType = DbType.Int32,
-                            Value = usproParameters.PageSize
+                            Value = usersParameters.PageSize
                         }
                 }
 
@@ -171,7 +171,7 @@ namespace Realta.Persistence.Repositories
             var uspro = await GetAllAsync<UserProfiles>(model);
             var totalRow = FindAllUserProfiles().Count();
 
-            return new PagedList<UserProfiles>(uspro.ToList(), totalRow, usproParameters.PageNumber, usproParameters.PageSize);
+            return new PagedList<UserProfiles>(uspro.ToList(), totalRow, usersParameters.PageNumber, usersParameters.PageSize);
         }
 
         public void Insert(UserProfiles uspro)

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Realta.Contract.Models;
 using Realta.Domain.Base;
 using Realta.Domain.Entities;
+using Realta.Domain.RequestFeatures;
 using Realta.Services.Abstraction;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -37,6 +39,17 @@ namespace Realta.WebAPI.Controllers
             });
 
             return Ok(ubpoDto);
+        }
+
+        // Get Ubpo Pagelist
+        [HttpGet("pageList")]
+        public async Task<IActionResult> GetUbpoPageList([FromQuery] UsersParameters usersParameters)
+        {
+            var ubpo = await _repositoryManager.UserBonusPointsRepository.GetUbpoPageList(usersParameters);
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(ubpo.MetaData));
+
+            return Ok(ubpo);
         }
 
         // GET api/<UserBonusPointsController>/5

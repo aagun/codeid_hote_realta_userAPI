@@ -47,9 +47,9 @@ namespace Realta.WebAPI.Controllers
 
         // Get Uspro Pagelist
         [HttpGet("pageList")]
-        public async Task<IActionResult> GetUsersPageList([FromQuery] UsproParameters usproParameters)
+        public async Task<IActionResult> GetUsersPageList([FromQuery] UsersParameters usersParameters)
         {
-            var uspro = await _repositoryManager.UserProfilesRepository.GetUserProfilesPageList(usproParameters);
+            var uspro = await _repositoryManager.UserProfilesRepository.GetUserProfilesPageList(usersParameters);
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(uspro.MetaData));
 

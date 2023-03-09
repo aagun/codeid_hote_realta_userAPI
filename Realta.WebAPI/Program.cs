@@ -17,6 +17,11 @@ internal class Program
         builder.Services.ConfigureRepositoryManager();
         builder.Services.ConfigureLoggerService();
 
+        builder.Services.AddAuthentication();
+
+        builder.Services.ConfigureJWT(builder.Configuration);
+        builder.Services.ConfigureAuthenticationManager();
+
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -38,6 +43,7 @@ internal class Program
         app.UseStaticFiles();
         app.UseCors("CorsPolicy");
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();

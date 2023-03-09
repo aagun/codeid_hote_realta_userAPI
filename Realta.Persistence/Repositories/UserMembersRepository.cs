@@ -1,5 +1,6 @@
 ﻿using Realta.Domain.Entities;
 using Realta.Domain.Repositories;
+using Realta.Domain.RequestFeatures;
 using Realta.Persistence.Base;
 using Realta.Persistence.RepositoryContext;
 using System;
@@ -121,6 +122,35 @@ namespace Realta.Persistence.Repositories
                 item = dataSet.Current;
             }
             return item;
+        }
+
+        public async Task<PagedList<UserMembers>> GetUsmePageList(UsersParameters usersParameters)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = @"SELECT usme_user_id UsmeUserId, usme_promote_date UsmePromoteDate, usme_memb_name UsmeMembName, 
+                                usme_points UsmePoints, usme_type UsmeType FROM users.user_members ORDER BY usme_user_id
+                                OFFSET @pageNo ROWS FETCH NEXT @pageSize ROWS ONLY",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                            ParameterName = "@pageNo",
+                            DataType = DbType.Int32,
+                            Value = usersParameters.PageNumber
+                        },
+                    new SqlCommandParameterModel() {
+                            ParameterName = "@pageSize",
+                            DataType = DbType.Int32,
+                            Value = usersParameters.PageSize
+                        }
+                }
+
+            };
+
+            var usme = await GetAllAsync<UserMembers>(model);
+            var totalRow = FindAllUserMembers().Count();
+
+            return new PagedList<UserMembers>(usme.ToList(), totalRow, usersParameters.PageNumber, usersParameters.PageSize);
         }
 
         public void Insert(UserMembers usme)

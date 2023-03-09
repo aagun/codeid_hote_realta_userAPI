@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Realta.Contract.AuthenticationWebAPI;
 using Realta.Contract.Models;
 using Realta.Domain.Base;
 using Realta.Domain.Entities;
 using Realta.Domain.RequestFeatures;
 using Realta.Services.Abstraction;
+using Realta.WebAPI.Authentication;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,11 +17,26 @@ namespace Realta.WebAPI.Controllers
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly ILoggerManager _logger;
+        private readonly IAuthenticationManager _authenticationManager;
 
-        public UsersController(IRepositoryManager repositoryManager, ILoggerManager logger)
+        public UsersController(IRepositoryManager repositoryManager, ILoggerManager logger, IAuthenticationManager authenticationManager)
         {
             _repositoryManager = repositoryManager;
             _logger = logger;
+            _authenticationManager = authenticationManager;
+        }
+
+        //GET : api/signin
+        [HttpPost("signin")]
+        public async Task<IActionResult> Signin([FromBody] UserForAuthenticationDto userForAuthenticationDto)
+        {
+            if (!await _authenticationManager.ValidateUser(userForAuthenticationDto))
+            {
+                _logger.LogWarning($"{nameof(Authentication)} : Authentication Failed. Wrong email of password");
+                return Unauthorized();
+            }
+
+            return Ok(new { Token = await _authenticationManager.CreateToken() });
         }
 
         // GET: api/<UsersController>
@@ -54,7 +71,7 @@ namespace Realta.WebAPI.Controllers
         }
 
         //GET api/User-Uspro
-        [HttpGet("uspro/{id}")]
+        [HttpGet("profile/{id}")]
         public IActionResult GetUsproById(int id) 
         {
             var userUspro = _repositoryManager.UsersRepository.GetUsersUspro(id);

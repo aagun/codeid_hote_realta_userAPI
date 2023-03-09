@@ -1,5 +1,6 @@
 ﻿using Realta.Domain.Entities;
 using Realta.Domain.Repositories;
+using Realta.Domain.RequestFeatures;
 using Realta.Persistence.Base;
 using Realta.Persistence.RepositoryContext;
 using System;
@@ -119,6 +120,36 @@ namespace Realta.Persistence.Repositories
                 item = dataSet.Current;
             }
             return item;
+        }
+
+        public async Task<PagedList<UserBonusPoints>> GetUbpoPageList(UsersParameters usersParameters)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = @"SELECT ubpo_id UbpoId, ubpo_user_id UbpoUserId, ubpo_created_on UbpoCreatedOn, 
+                                ubpo_bonus_type UbpoBonusType, ubpo_total_points UbpoTotalPoints 
+                                FROM users.bonus_points ORDER BY ubpo_id
+                                OFFSET @pageNo ROWS FETCH NEXT @pageSize ROWS ONLY",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                            ParameterName = "@pageNo",
+                            DataType = DbType.Int32,
+                            Value = usersParameters.PageNumber
+                        },
+                    new SqlCommandParameterModel() {
+                            ParameterName = "@pageSize",
+                            DataType = DbType.Int32,
+                            Value = usersParameters.PageSize
+                        }
+                }
+
+            };
+
+            var ubpo = await GetAllAsync<UserBonusPoints>(model);
+            var totalRow = FindAllUserBonusPoints().Count();
+
+            return new PagedList<UserBonusPoints>(ubpo.ToList(), totalRow, usersParameters.PageNumber, usersParameters.PageSize);
         }
 
         public void Insert(UserBonusPoints ubpo)

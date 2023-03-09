@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Realta.Contract.Models;
 using Realta.Domain.Base;
 using Realta.Domain.Entities;
+using Realta.Domain.RequestFeatures;
 using Realta.Persistence.RepositoryContext;
 using Realta.Services.Abstraction;
 using System.Data;
@@ -40,6 +42,17 @@ namespace Realta.WebAPI.Controllers
             });
 
             return Ok(usmeDto);
+        }
+
+        // Get Usme Pagelist
+        [HttpGet("pageList")]
+        public async Task<IActionResult> GetUsmePageList([FromQuery] UsersParameters usersParameters)
+        {
+            var usme = await _repositoryManager.UserMembersRepository.GetUsmePageList(usersParameters);
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(usme.MetaData));
+
+            return Ok(usme);
         }
 
         // GET api/<UserMembersController>/5

@@ -67,3 +67,10 @@ C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.WebAPI\bin\Debug\net6.0\
 C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.WebAPI\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.WebAPI\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
 C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.WebAPI\obj\Debug\net6.0\Realta.WebAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.WebAPI\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
