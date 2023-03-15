@@ -9,4 +9,8 @@
     <RootNamespace>Realta.Services.Abstraction</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Realta.Contract\Realta.Contract.csproj" />
+  </ItemGroup>
+
 </Project>

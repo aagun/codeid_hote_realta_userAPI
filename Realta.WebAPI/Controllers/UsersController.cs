@@ -4,6 +4,7 @@ using Realta.Contract.Models;
 using Realta.Domain.Base;
 using Realta.Domain.Entities;
 using Realta.Domain.RequestFeatures;
+using Realta.Services;
 using Realta.Services.Abstraction;
 using Realta.WebAPI.Authentication;
 
@@ -22,9 +23,11 @@ namespace Realta.WebAPI.Controllers
         public UsersController(IRepositoryManager repositoryManager, ILoggerManager logger, IAuthenticationManager authenticationManager)
         {
             _repositoryManager = repositoryManager;
-            _logger = logger;
+            this._logger = logger;
             _authenticationManager = authenticationManager;
         }
+
+      
 
         //GET : api/signin
         [HttpPost("signin")]

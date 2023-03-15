@@ -167,6 +167,7 @@ namespace Realta.Persistence.Repositories
             return item;
         }
 
+
         public async Task<IEnumerable<Users>> GetUsersPaging(UsersParameters usersParameters)
         {
             SqlCommandModel model = new SqlCommandModel()
@@ -326,6 +327,51 @@ namespace Realta.Persistence.Repositories
             _adoContext.Dispose();
         }
 
+        public void InsertProfile(Users users)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = @"INSERT INTO users.users 
+                (user_full_name UserFullName, user_type UserType, user_phone_number UserPhoneNumber, 
+                user_email UserEmail, user_company_name UserCompanyName) 
+                values (@userFullName, @userType, @userPhoneNumber, @userEmail, @userCompanyName);",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userFullName",
+                        DataType = DbType.String,
+                        Value = users.UserFullName
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userType",
+                        DataType = DbType.String,
+                        Value = users.UserType
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userPhoneNumber",
+                        DataType = DbType.String,
+                        Value = users.UserPhoneNumber
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userEmail",
+                        DataType = DbType.String,
+                        Value = users.UserEmail
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userCompanyName",
+                        DataType = DbType.String,
+                        Value = users.UserCompanyName
+                    }
+                }
+            };
+
+            _adoContext.ExecuteNonQuery(model);
+            _adoContext.Dispose();
+        }
+
         public void Remove(Users users)
         {
             SqlCommandModel model = new SqlCommandModel()
@@ -349,7 +395,7 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "users.SignIn",
+                CommandText = "users.SpSignIn",
                 CommandType = CommandType.StoredProcedure,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -373,7 +419,7 @@ namespace Realta.Persistence.Repositories
             _adoContext.Dispose();
 
 
-            return result == "User successfully logged in" ? true : false;
+            return result == "Login Success" ? true : false;
         }
 
         public string SignOut(string userName, string userPassword)
@@ -385,7 +431,7 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "[users].[UpdateProfile]",
+                CommandText = "[users].[SpUpdateProfile]",
                 CommandType = CommandType.StoredProcedure,
                 CommandParameters = new SqlCommandParameterModel[] {
             new SqlCommandParameterModel() {
@@ -457,6 +503,35 @@ namespace Realta.Persistence.Repositories
 
             _adoContext.ExecuteNonQuery(model);
             _adoContext.Dispose();
+        }
+
+        Users IUsersRepository.GetRoles(string userEmail)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "SELECT user_id UserId, role_id RoleId, role_name RoleName FROM Users.users u " +
+                "JOIN Users.user_roles ur ON u.user_id = ur.usro_user_id " +
+                "JOIN Users.roles r ON ur.usro_user_id = r.role_id " +
+                "WHERE user_email = @userEmail; ",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userEmail",
+                        DataType = DbType.Int32,
+                        Value = userEmail
+                    }
+                }
+            };
+
+            var dataSet = FindByCondition<Users>(model);
+
+            var item = new Users();
+
+            while (dataSet.MoveNext())
+            {
+                item = dataSet.Current;
+            }
+            return item;
         }
     }
 }

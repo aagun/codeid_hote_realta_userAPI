@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "kxIDX7/MJOYriHxgc0wxnod3Pmwhzpp/gh+/rWp0qpsvtWOENYtv7FEWvjcjAxHa0lGdkG4kbiGHFeyy887/xA==",
+  "dgSpecHash": "upkraZ+LbffieBBD57EbTIpLmeGyJ/DEN/w+Skr7tE1jZTA0Rtbte1snvU5hwOgXgaZjIibq0n9vdu/tptEEsw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Persistence\\Realta.Persistence.csproj",
+  "projectFilePath": "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Persistence\\Realta.Persistence.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\E5470\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\E5470\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",

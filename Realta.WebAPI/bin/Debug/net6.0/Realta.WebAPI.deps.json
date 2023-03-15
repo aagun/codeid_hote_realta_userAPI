@@ -338,6 +338,7 @@
       "Realta.Services/1.0.0": {
         "dependencies": {
           "NLog.Extensions.Logging": "5.0.4",
+          "Realta.Domain": "1.0.0",
           "Realta.Services.Abstraction": "1.0.0"
         },
         "runtime": {
@@ -345,6 +346,9 @@
         }
       },
       "Realta.Services.Abstraction/1.0.0": {
+        "dependencies": {
+          "Realta.Contract": "1.0.0"
+        },
         "runtime": {
           "Realta.Services.Abstraction.dll": {}
         }

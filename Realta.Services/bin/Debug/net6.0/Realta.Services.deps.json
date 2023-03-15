@@ -9,6 +9,7 @@
       "Realta.Services/1.0.0": {
         "dependencies": {
           "NLog.Extensions.Logging": "5.0.4",
+          "Realta.Domain": "1.0.0",
           "Realta.Services.Abstraction": "1.0.0"
         },
         "runtime": {
@@ -108,7 +109,20 @@
           }
         }
       },
+      "Realta.Contract/1.0.0": {
+        "runtime": {
+          "Realta.Contract.dll": {}
+        }
+      },
+      "Realta.Domain/1.0.0": {
+        "runtime": {
+          "Realta.Domain.dll": {}
+        }
+      },
       "Realta.Services.Abstraction/1.0.0": {
+        "dependencies": {
+          "Realta.Contract": "1.0.0"
+        },
         "runtime": {
           "Realta.Services.Abstraction.dll": {}
         }
@@ -183,6 +197,16 @@
       "sha512": "sha512-43f4l7pY5cEjU/m2Xj4kDZhBmwS1xYP1kOzCQiXwv3PWpziGLfF8kA22idk+yRhMfNVExQ/OFnBaoxk6JB3JeA==",
       "path": "nlog.extensions.logging/5.0.4",
       "hashPath": "nlog.extensions.logging.5.0.4.nupkg.sha512"
+    },
+    "Realta.Contract/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Realta.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "Realta.Services.Abstraction/1.0.0": {
       "type": "project",

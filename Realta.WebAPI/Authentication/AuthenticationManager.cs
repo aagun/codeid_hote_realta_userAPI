@@ -68,12 +68,13 @@ namespace Realta.WebAPI.Authentication
 
             var roles = new List<string> { "Manager" };//await _userManager.GetRolesAsync(_user);
             
+            
             foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
             return claims;
-            //throw new NotImplementedException();
+            
         }
 
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)

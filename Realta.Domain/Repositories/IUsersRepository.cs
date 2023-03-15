@@ -23,10 +23,14 @@ namespace Realta.Domain.Repositories
 
         Users FindUsersById(int usersId);
 
-
+  
+        Users GetRoles(string userEmail);
         void Insert(Users users);
+        //not implementation
+        void InsertProfile(Users users);
 
         void Edit(Users users);
+        //not implementation
         void Update(UsersJoinUspro profiles);
 
         void Remove(Users users);

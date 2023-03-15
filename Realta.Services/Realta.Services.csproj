@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -13,6 +13,7 @@
 		<PackageReference Include="NLog.Extensions.Logging" Version="5.0.4" />
 	</ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Realta.Domain\Realta.Domain.csproj" />
     <ProjectReference Include="..\Realta.Services.Abstraction\Realta.Services.Abstraction.csproj" />
   </ItemGroup>
 

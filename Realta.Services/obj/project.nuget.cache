@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/jLNYeOkUMFiQ7ek9FG1KrtA82dshqM2x4P8yNSHeCBpB1/UiTvd8/TlQ5PwrMu0aw4GVbkwEQIg3IAgxijAhQ==",
+  "dgSpecHash": "ly6OYesX8EKJdnQsHH9v/2/Ya4l39ar7xNc8dePqtCUx7+9wNFSG4AkML/lPhtzOgrEZ0DTP7eIyc+u360os8A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Services\\Realta.Services.csproj",
+  "projectFilePath": "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Services\\Realta.Services.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\E5470\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\E5470\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.0\\microsoft.extensions.dependencyinjection.5.0.0.nupkg.sha512",

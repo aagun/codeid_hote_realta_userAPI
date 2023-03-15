@@ -621,6 +621,7 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "NLog.Extensions.Logging": "5.0.4",
+          "Realta.Domain": "1.0.0",
           "Realta.Services.Abstraction": "1.0.0"
         },
         "compile": {
@@ -633,6 +634,9 @@
       "Realta.Services.Abstraction/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Realta.Contract": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/Realta.Services.Abstraction.dll": {}
         },
@@ -1650,24 +1654,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\E5470\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\E5470\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.WebAPI\\Realta.WebAPI.csproj",
+      "projectUniqueName": "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.WebAPI\\Realta.WebAPI.csproj",
       "projectName": "Realta.WebAPI",
-      "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.WebAPI\\Realta.WebAPI.csproj",
+      "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.WebAPI\\Realta.WebAPI.csproj",
       "packagesPath": "C:\\Users\\E5470\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.WebAPI\\obj\\",
+      "outputPath": "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.WebAPI\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
         "C:\\Users\\E5470\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1675,27 +1674,26 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Contract\\Realta.Contract.csproj": {
-              "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Contract\\Realta.Contract.csproj"
+            "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Contract\\Realta.Contract.csproj": {
+              "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Contract\\Realta.Contract.csproj"
             },
-            "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Domain\\Realta.Domain.csproj": {
-              "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Domain\\Realta.Domain.csproj"
+            "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Domain\\Realta.Domain.csproj": {
+              "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Domain\\Realta.Domain.csproj"
             },
-            "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Persistence\\Realta.Persistence.csproj": {
-              "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Persistence\\Realta.Persistence.csproj"
+            "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Persistence\\Realta.Persistence.csproj": {
+              "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Persistence\\Realta.Persistence.csproj"
             },
-            "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Services.Abstraction\\Realta.Services.Abstraction.csproj": {
-              "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Services.Abstraction\\Realta.Services.Abstraction.csproj"
+            "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Services.Abstraction\\Realta.Services.Abstraction.csproj": {
+              "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Services.Abstraction\\Realta.Services.Abstraction.csproj"
             },
-            "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Services\\Realta.Services.csproj": {
-              "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\RealtaWebSolution\\Realta.Services\\Realta.Services.csproj"
+            "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Services\\Realta.Services.csproj": {
+              "projectPath": "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Services\\Realta.Services.csproj"
             }
           }
         }
