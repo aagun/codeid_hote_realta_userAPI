@@ -18,8 +18,7 @@ namespace Realta.Persistence.Base
         private IUserMembersRepository _userMembersRepository;
         private IUserBonusPointsRepository _userBonusPointsRepository;
         private IUserPasswordRepository _userPasswordRepository;
-        private IRolesRepository _rolesRepository;
-        private IUserRolesRepository _userRolesRepository;
+ 
 
         public RepositoryManager(AdoDbContext adoContext)
         {
@@ -86,28 +85,5 @@ namespace Realta.Persistence.Base
             }
         }
 
-        public IRolesRepository RolesRepository
-        {
-            get
-            {
-                if (_rolesRepository == null) 
-                { 
-                    _rolesRepository = new RolesRepository(_adoContext);
-                }
-                return _rolesRepository;
-            }
-        }
-
-        public IUserRolesRepository UserRolesRepository
-        {
-            get
-            {
-                if (_userRolesRepository == null) 
-                {
-                    _userRolesRepository = new UserRolesRepository(_adoContext);
-                }
-                return _userRolesRepository;
-            }
-        }
     }
 }
