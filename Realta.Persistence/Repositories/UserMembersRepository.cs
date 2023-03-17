@@ -129,7 +129,8 @@ namespace Realta.Persistence.Repositories
             SqlCommandModel model = new SqlCommandModel()
             {
                 CommandText = @"SELECT usme_user_id UsmeUserId, usme_promote_date UsmePromoteDate, usme_memb_name UsmeMembName, 
-                                usme_points UsmePoints, usme_type UsmeType FROM users.user_members ORDER BY usme_user_id
+                                usme_points UsmePoints, usme_type UsmeType FROM users.user_members WHERE usme_points BETWEEN @minPoint AND @maxPoint
+                                ORDER BY usme_user_id
                                 OFFSET @pageNo ROWS FETCH NEXT @pageSize ROWS ONLY",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
@@ -142,7 +143,19 @@ namespace Realta.Persistence.Repositories
                             ParameterName = "@pageSize",
                             DataType = DbType.Int32,
                             Value = usersParameters.PageSize
-                        }
+                        },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@minPoint",
+                        DataType = DbType.Int32,
+                        Value = usersParameters.MinPoint
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@maxPoint",
+                        DataType = DbType.Int32,
+                        Value = usersParameters.MaxPoint
+                    }
                 }
 
             };
@@ -150,7 +163,9 @@ namespace Realta.Persistence.Repositories
             var usme = await GetAllAsync<UserMembers>(model);
             var totalRow = FindAllUserMembers().Count();
 
-            return new PagedList<UserMembers>(usme.ToList(), totalRow, usersParameters.PageNumber, usersParameters.PageSize);
+            var memberSearch = usme.Where(m => m.UsmeMembName.ToLower().Contains(usersParameters.SearchTerm.Trim().ToLower()));
+
+            return new PagedList<UserMembers>(memberSearch.ToList(), totalRow, usersParameters.PageNumber, usersParameters.PageSize);
         }
 
         public void Insert(UserMembers usme)

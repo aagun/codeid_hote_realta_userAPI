@@ -45,6 +45,8 @@ namespace Realta.WebAPI.Controllers
         [HttpGet("pageList")]
         public async Task<IActionResult> GetUbpoPageList([FromQuery] UsersParameters usersParameters)
         {
+            if (!usersParameters.ValidatePointRange)
+                return BadRequest("MaxPoint must greater than MinPoint");
             var ubpo = await _repositoryManager.UserBonusPointsRepository.GetUbpoPageList(usersParameters);
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(ubpo.MetaData));

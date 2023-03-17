@@ -129,7 +129,8 @@ namespace Realta.Persistence.Repositories
             {
                 CommandText = @"SELECT ubpo_id UbpoId, ubpo_user_id UbpoUserId, ubpo_created_on UbpoCreatedOn, 
                                 ubpo_bonus_type UbpoBonusType, ubpo_total_points UbpoTotalPoints 
-                                FROM users.bonus_points ORDER BY ubpo_id
+                                FROM users.bonus_points WHERE ubpo_total_points BETWEEN @minPoint AND @maxPoint
+                                ORDER BY ubpo_id
                                 OFFSET @pageNo ROWS FETCH NEXT @pageSize ROWS ONLY",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
@@ -142,7 +143,19 @@ namespace Realta.Persistence.Repositories
                             ParameterName = "@pageSize",
                             DataType = DbType.Int32,
                             Value = usersParameters.PageSize
-                        }
+                        },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@minPoint",
+                        DataType = DbType.Int32,
+                        Value = usersParameters.MinPoint
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@maxPoint",
+                        DataType = DbType.Int32,
+                        Value = usersParameters.MaxPoint
+                    }
                 }
 
             };

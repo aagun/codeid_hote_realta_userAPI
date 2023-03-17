@@ -48,6 +48,8 @@ namespace Realta.WebAPI.Controllers
         [HttpGet("pageList")]
         public async Task<IActionResult> GetUsmePageList([FromQuery] UsersParameters usersParameters)
         {
+            if (!usersParameters.ValidatePointRange)
+                return BadRequest("MaxPoint must greater than MinPoint");
             var usme = await _repositoryManager.UserMembersRepository.GetUsmePageList(usersParameters);
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(usme.MetaData));
