@@ -99,8 +99,8 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "SELECT ubpo_id UbpoId, ubpo_user_id UbpoUserId, ubpo_total_points UbpoTotalPoints," +
-                "ubpo_bonus_type UbpoBonusType, ubpo_created_on UbpoCreatedOn FROM users.bonus_points where ubpo_id=@ubpoId;",
+                CommandText = "SELECT ubpo_created_on UbpoCreatedOn, ubpo_bonus_type UbpoBonusType, ubpo_total_points UbpoTotalPoints " +
+                "FROM users.bonus_points where ubpo_user_id=@ubpoId;",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -121,6 +121,7 @@ namespace Realta.Persistence.Repositories
             }
             return item;
         }
+
 
         public async Task<PagedList<UserBonusPoints>> GetUbpoPageList(UsersParameters usersParameters)
         {

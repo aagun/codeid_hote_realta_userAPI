@@ -64,7 +64,7 @@ namespace Realta.WebAPI.Controllers
             }
             var ubpoDto = new UserBonusPointsDto
             {
-                UbpoId = ubpo.UbpoId,
+                
                 UbpoUserId = ubpo.UbpoUserId,
                 UbpoTotalPoints = ubpo.UbpoTotalPoints,
                 UbpoBonusType = ubpo.UbpoBonusType,

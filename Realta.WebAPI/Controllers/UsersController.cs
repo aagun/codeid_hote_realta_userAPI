@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Realta.Contract.AuthenticationWebAPI;
 using Realta.Contract.Models;
 using Realta.Domain.Base;
@@ -27,7 +28,8 @@ namespace Realta.WebAPI.Controllers
             _authenticationManager = authenticationManager;
         }
 
-      
+
+        
 
         //GET : api/signin
         [HttpPost("signin")]
@@ -40,6 +42,28 @@ namespace Realta.WebAPI.Controllers
             }
 
             return Ok(new { Token = await _authenticationManager.CreateToken() });
+        }
+
+        [HttpPost("signupEmployee")]
+        public async Task<IActionResult> Signup([FromBody] UserForRegistrationDto userForRegistrationDto)
+        {
+            if (userForRegistrationDto == null)
+            {
+                _logger.LogError("CreateUserDto object sent from client is null");
+                return BadRequest("CreateUserDto object is null");
+            }
+
+            var userData = new CreateUser()
+            {
+                UserName = userForRegistrationDto.UserName,
+                UserEmail = userForRegistrationDto.UserEmail,
+                UserPassword = userForRegistrationDto.UserPassword,
+                UserPhoneNumber = userForRegistrationDto.UserPhoneNumber,
+                ResponseMessage = userForRegistrationDto.ResponseMessage
+            };
+
+            _repositoryManager.UsersRepository.SignUp(userData);
+            return Ok("User Created");
         }
 
         // GET: api/<UsersController>
@@ -79,6 +103,14 @@ namespace Realta.WebAPI.Controllers
         {
             var userUspro = _repositoryManager.UsersRepository.GetUsersUspro(id);
             return Ok(userUspro);
+        }
+
+        //GET api/User-Usme
+        [HttpGet("usme/{id}")]
+        public IActionResult GetUsmeById(int id)
+        {
+            var userUsme = _repositoryManager.UsersRepository.GetUsersUsme(id);
+            return Ok(userUsme);
         }
 
         // GET api/<UsersController>/5

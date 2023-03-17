@@ -21,12 +21,11 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "UPDATE users.user_password SET uspa_passwordHash=@uspaPasswordHash, uspa_passwordSalt=@uspaPasswordSalt " +
-                "WHERE uspa_user_id = @uspaUserId;",
+                CommandText = "users.SpChangePassword",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
-                        ParameterName = "@uspaUserId",
+                        ParameterName = "@userId",
                         DataType = DbType.Int32,
                         Value = uspa.UspaUserId
                     },

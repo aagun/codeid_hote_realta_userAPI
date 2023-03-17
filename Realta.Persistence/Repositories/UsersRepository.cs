@@ -204,6 +204,65 @@ namespace Realta.Persistence.Repositories
             return item;
         }
 
+        public UsersNestedUsme GetUsersUsme(int userId)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = @"SELECT user_full_name UserFullName, user_type UserType, 
+                                usme_memb_name UsmeMembName, user_email UserEmail, 
+                                user_phone_number UserPhoneNumber
+                                FROM users.users u
+                                JOIN users.user_members m
+                                ON user_id=usme_user_id
+                                WHERE user_id=@userId",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                            ParameterName = "@userId",
+                            DataType = DbType.Int32,
+                            Value = userId
+                        },
+
+                }
+
+            };
+
+            var dataSet = FindByCondition<UsersJoinUsme>(model);
+
+            var listData = new List<UsersJoinUsme>();
+
+            while (dataSet.MoveNext())
+            {
+                listData.Add(dataSet.Current);
+            }
+
+            var users = listData.Select(x => new
+            {
+                x.UserFullName,
+                x.UserType,
+                x.UserPhoneNumber,
+                x.UserEmail
+            }).FirstOrDefault();
+
+            var usme = listData.Select(x => new UserMembers
+            {
+                UsmeMembName = x.UsmeMembName
+            
+            });
+
+            var nestedJson = new UsersNestedUsme
+            {
+                
+                UserFullName = users.UserFullName,
+                UserType = users.UserType,
+                UserEmail = users.UserEmail,
+                UserPhoneNumber = users.UserPhoneNumber,
+                UserMembers = usme.ToList()
+            };
+
+            return nestedJson;
+        }
+
         public UsersNestedUspro GetUsersUspro(int userId)
         {
             SqlCommandModel model = new SqlCommandModel()
@@ -427,6 +486,56 @@ namespace Realta.Persistence.Repositories
             throw new NotImplementedException();
         }
 
+        public void SignUp(CreateUser createUser)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "users.SpSignUpEmployee",
+                CommandType = CommandType.StoredProcedure,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userName",
+                        DataType = DbType.String,
+                        Value = createUser.UserName
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userEmail",
+                        DataType = DbType.String,
+                        Value = createUser.UserEmail
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userPassword",
+                        DataType = DbType.String,
+                        Value = createUser.UserPassword
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@confirmPassword",
+                        DataType = DbType.String,
+                        Value = createUser.UserPassword
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userPhoneNumber",
+                        DataType = DbType.String,
+                        Value = createUser.UserPhoneNumber
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@responseMessage",
+                        DataType = DbType.String,
+                        Value = createUser.ResponseMessage
+                    }
+                }
+            };
+
+            string result = _adoContext.ExecuteStoreProcedure(model, "@responseMessage", 250);
+            _adoContext.Dispose();
+
+
+            //return result == "Success" ? true : false;
+        }
+
         public void Update(UsersJoinUspro profiles)
         {
             SqlCommandModel model = new SqlCommandModel()
@@ -505,27 +614,33 @@ namespace Realta.Persistence.Repositories
             _adoContext.Dispose();
         }
 
-        Users IUsersRepository.GetRoles(string userEmail)
+        Users IUsersRepository.GetRoles(string userEmail, int roleId)
         {
             SqlCommandModel model = new SqlCommandModel()
             {
                 CommandText = "SELECT user_id UserId, role_id RoleId, role_name RoleName FROM Users.users u " +
                 "JOIN Users.user_roles ur ON u.user_id = ur.usro_user_id " +
                 "JOIN Users.roles r ON ur.usro_user_id = r.role_id " +
-                "WHERE user_email = @userEmail; ",
+                "WHERE user_email = @userEmail OR role_id = @roleId; ",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
                         ParameterName = "@userEmail",
-                        DataType = DbType.Int32,
+                        DataType = DbType.String,
                         Value = userEmail
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@roleId",
+                        DataType = DbType.Int64,
+                        Value = roleId
                     }
                 }
             };
 
             var dataSet = FindByCondition<Users>(model);
 
-            var item = new Users();
+            Users? item = dataSet.Current ?? null;
 
             while (dataSet.MoveNext())
             {

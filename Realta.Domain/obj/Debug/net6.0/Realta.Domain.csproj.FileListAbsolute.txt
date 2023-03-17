@@ -13,9 +13,7 @@ C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Domain\obj\Debug\net6.0\
 C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Domain\obj\Debug\net6.0\Realta.Domain.pdb
 C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Domain\obj\Debug\net6.0\Realta.Domain.genruntimeconfig.cache
 C:\Users\E5470\source\Batch#20\RealtaWebSolution\Realta.Domain\obj\Debug\net6.0\ref\Realta.Domain.dll
-C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\bin\Debug\net6.0\Realta.Domain.exe
 C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\bin\Debug\net6.0\Realta.Domain.deps.json
-C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\bin\Debug\net6.0\Realta.Domain.runtimeconfig.json
 C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\bin\Debug\net6.0\Realta.Domain.dll
 C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\bin\Debug\net6.0\Realta.Domain.pdb
 C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\obj\Debug\net6.0\Realta.Domain.csproj.AssemblyReference.cache
@@ -26,5 +24,4 @@ C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\obj\Debug\net6.0\
 C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\obj\Debug\net6.0\Realta.Domain.dll
 C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\obj\Debug\net6.0\refint\Realta.Domain.dll
 C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\obj\Debug\net6.0\Realta.Domain.pdb
-C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\obj\Debug\net6.0\Realta.Domain.genruntimeconfig.cache
 C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.Domain\obj\Debug\net6.0\ref\Realta.Domain.dll

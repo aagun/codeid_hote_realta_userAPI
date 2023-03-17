@@ -62,11 +62,11 @@ namespace Realta.WebAPI.Authentication
         private async Task<List<Claim>> GetClaims()
         {
             var claims = new List<Claim>
-             {
-             new Claim(ClaimTypes.Name, _user.UserEmail)
-             };
+            {
+                new Claim(ClaimTypes.Name, _user.UserEmail)
+            };
 
-            var roles = new List<string> { "Manager" };//await _userManager.GetRolesAsync(_user);
+            var roles = new List<string> { "Admin" };//await _userManager.GetRolesAsync(_user);
             
             
             foreach (var role in roles)
@@ -74,7 +74,7 @@ namespace Realta.WebAPI.Authentication
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
             return claims;
-            
+            //throw new NotImplementedException();
         }
 
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
