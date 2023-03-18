@@ -19,6 +19,49 @@ namespace Realta.Persistence.Repositories
         {
         }
 
+        public void ChangePassword(ChangePassword changePassword)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "users.SpChangePassword",
+                CommandType = CommandType.StoredProcedure,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userId",
+                        DataType = DbType.Int32,
+                        Value = changePassword.UserId
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@oldPassword",
+                        DataType = DbType.String,
+                        Value = changePassword.OldPassword
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@newPassword",
+                        DataType = DbType.String,
+                        Value = changePassword.NewPassword
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@confirmPassword",
+                        DataType = DbType.String,
+                        Value = changePassword.ConfirmPassword
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@responseMessage",
+                        DataType = DbType.String,
+                        Value = changePassword.ResponseMessage
+                    }
+                }
+            };
+
+            string result = _adoContext.ExecuteStoreProcedure(model, "@responseMessage", 250);
+            
+            _adoContext.Dispose();
+        }
+
         public void Edit(Users users)
         {
             SqlCommandModel model = new SqlCommandModel()
@@ -167,6 +210,35 @@ namespace Realta.Persistence.Repositories
             return item;
         }
 
+        public Profile GetProfileById(int userId)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "SELECT user_full_name UserFullName, usme_memb_name UsmeMembName, user_type UserType, " +
+                "user_email UserEmail, user_phone_number UserPhoneNumber " +
+                "FROM users.users u " +
+                "JOIN users.user_members m ON u.user_id=m.usme_user_id " +
+                "WHERE user_id=@userId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userId",
+                        DataType = DbType.Int32,
+                        Value = userId
+                    }
+                }
+            };
+
+            var dataSet = FindByCondition<Profile>(model);
+
+            var item = new Profile();
+
+            while (dataSet.MoveNext())
+            {
+                item = dataSet.Current;
+            }
+            return item;
+        }
 
         public async Task<IEnumerable<Users>> GetUsersPaging(UsersParameters usersParameters)
         {
@@ -204,64 +276,6 @@ namespace Realta.Persistence.Repositories
             return item;
         }
 
-        public UsersNestedUsme GetUsersUsme(int userId)
-        {
-            SqlCommandModel model = new SqlCommandModel()
-            {
-                CommandText = @"SELECT user_full_name UserFullName, user_type UserType, 
-                                usme_memb_name UsmeMembName, user_email UserEmail, 
-                                user_phone_number UserPhoneNumber
-                                FROM users.users u
-                                JOIN users.user_members m
-                                ON user_id=usme_user_id
-                                WHERE user_id=@userId",
-                CommandType = CommandType.Text,
-                CommandParameters = new SqlCommandParameterModel[] {
-                    new SqlCommandParameterModel() {
-                            ParameterName = "@userId",
-                            DataType = DbType.Int32,
-                            Value = userId
-                        },
-
-                }
-
-            };
-
-            var dataSet = FindByCondition<UsersJoinUsme>(model);
-
-            var listData = new List<UsersJoinUsme>();
-
-            while (dataSet.MoveNext())
-            {
-                listData.Add(dataSet.Current);
-            }
-
-            var users = listData.Select(x => new
-            {
-                x.UserFullName,
-                x.UserType,
-                x.UserPhoneNumber,
-                x.UserEmail
-            }).FirstOrDefault();
-
-            var usme = listData.Select(x => new UserMembers
-            {
-                UsmeMembName = x.UsmeMembName
-            
-            });
-
-            var nestedJson = new UsersNestedUsme
-            {
-                
-                UserFullName = users.UserFullName,
-                UserType = users.UserType,
-                UserEmail = users.UserEmail,
-                UserPhoneNumber = users.UserPhoneNumber,
-                UserMembers = usme.ToList()
-            };
-
-            return nestedJson;
-        }
 
         public UsersNestedUspro GetUsersUspro(int userId)
         {
@@ -386,43 +400,76 @@ namespace Realta.Persistence.Repositories
             _adoContext.Dispose();
         }
 
-        public void InsertProfile(Users users)
+        public void InsertProfile(CreateProfile createProfile)
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = @"INSERT INTO users.users 
-                (user_full_name UserFullName, user_type UserType, user_phone_number UserPhoneNumber, 
-                user_email UserEmail, user_company_name UserCompanyName) 
-                values (@userFullName, @userType, @userPhoneNumber, @userEmail, @userCompanyName);",
-                CommandType = CommandType.Text,
+                CommandText = "users.SpInsertProfile",
+                CommandType = CommandType.StoredProcedure,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
                         ParameterName = "@userFullName",
                         DataType = DbType.String,
-                        Value = users.UserFullName
+                        Value = createProfile.UserFullName
                     },
                     new SqlCommandParameterModel() {
                         ParameterName = "@userType",
                         DataType = DbType.String,
-                        Value = users.UserType
-                    },
-                    new SqlCommandParameterModel()
-                    {
-                        ParameterName = "@userPhoneNumber",
-                        DataType = DbType.String,
-                        Value = users.UserPhoneNumber
-                    },
-                    new SqlCommandParameterModel()
-                    {
-                        ParameterName = "@userEmail",
-                        DataType = DbType.String,
-                        Value = users.UserEmail
+                        Value = createProfile.UserType
                     },
                     new SqlCommandParameterModel()
                     {
                         ParameterName = "@userCompanyName",
                         DataType = DbType.String,
-                        Value = users.UserCompanyName
+                        Value = createProfile.UserCompanyName
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userEmail",
+                        DataType = DbType.String,
+                        Value = createProfile.UserEmail
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userPhoneNumber",
+                        DataType = DbType.String,
+                        Value = createProfile.UserPhoneNumber
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproNationalId",
+                        DataType = DbType.String,
+                        Value = createProfile.UsproNationalId
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproBirthDate",
+                        DataType = DbType.DateTime,
+                        Value = createProfile.UsproBirthDate
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproJobTitle",
+                        DataType = DbType.String,
+                        Value = createProfile.UsproJobTitle
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproMaritalStatus",
+                        DataType = DbType.String,
+                        Value = createProfile.UsproMaritalStatus
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproGender",
+                        DataType = DbType.String,
+                        Value = createProfile.UsproGender
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproAddrId",
+                        DataType = DbType.String,
+                        Value = createProfile.UsproAddrId
                     }
                 }
             };
@@ -486,7 +533,7 @@ namespace Realta.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public void SignUp(CreateUser createUser)
+        public void SignUpEmployee(CreateUser createUser)
         {
             SqlCommandModel model = new SqlCommandModel()
             {
@@ -532,8 +579,32 @@ namespace Realta.Persistence.Repositories
             string result = _adoContext.ExecuteStoreProcedure(model, "@responseMessage", 250);
             _adoContext.Dispose();
 
+        }
 
-            //return result == "Success" ? true : false;
+        public void SignUpGuest(CreateUser createUser)
+        {
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "users.SpSignUpGuestRoles",
+                CommandType = CommandType.StoredProcedure,
+                CommandParameters = new SqlCommandParameterModel[] {
+                    
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userPhoneNumber",
+                        DataType = DbType.String,
+                        Value = createUser.UserPhoneNumber
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@responseMessage",
+                        DataType = DbType.String,
+                        Value = createUser.ResponseMessage
+                    }
+                }
+            };
+
+            string result = _adoContext.ExecuteStoreProcedure(model, "@responseMessage", 250);
+            _adoContext.Dispose();
         }
 
         public void Update(UsersJoinUspro profiles)

@@ -45,7 +45,7 @@ namespace Realta.WebAPI.Controllers
         }
 
         [HttpPost("signupEmployee")]
-        public async Task<IActionResult> Signup([FromBody] UserForRegistrationDto userForRegistrationDto)
+        public async Task<IActionResult> SignupEmployee([FromBody] UserForRegistrationDto userForRegistrationDto)
         {
             if (userForRegistrationDto == null)
             {
@@ -53,7 +53,7 @@ namespace Realta.WebAPI.Controllers
                 return BadRequest("CreateUserDto object is null");
             }
 
-            var userData = new CreateUser()
+            var employeeData = new CreateUser()
             {
                 UserName = userForRegistrationDto.UserName,
                 UserEmail = userForRegistrationDto.UserEmail,
@@ -62,8 +62,27 @@ namespace Realta.WebAPI.Controllers
                 ResponseMessage = userForRegistrationDto.ResponseMessage
             };
 
-            _repositoryManager.UsersRepository.SignUp(userData);
-            return Ok("User Created");
+            _repositoryManager.UsersRepository.SignUpEmployee(employeeData);
+            return Ok("Employee Created");
+        }
+
+        [HttpPost("signupGuest")]
+        public async Task<IActionResult> SignupGuest([FromBody] UserForRegistrationGuestDto userForRegistrationGuestDto)
+        {
+            if (userForRegistrationGuestDto == null)
+            {
+                _logger.LogError("UserGuestDto object sent from client is null");
+                return BadRequest("UserGuestDto object is null");
+            }
+
+            var guestData = new CreateUser()
+            {
+                UserPhoneNumber = userForRegistrationGuestDto.UserPhoneNumber,
+                ResponseMessage = userForRegistrationGuestDto.ResponseMessage
+            };
+
+            _repositoryManager.UsersRepository.SignUpGuest(guestData);
+            return Ok("Guest Created");
         }
 
         // GET: api/<UsersController>
@@ -98,19 +117,34 @@ namespace Realta.WebAPI.Controllers
         }
 
         //GET api/User-Uspro
-        [HttpGet("profile/{id}")]
+        [HttpGet("userprofile/{id}")]
         public IActionResult GetUsproById(int id) 
         {
             var userUspro = _repositoryManager.UsersRepository.GetUsersUspro(id);
             return Ok(userUspro);
         }
 
-        //GET api/User-Usme
-        [HttpGet("usme/{id}")]
-        public IActionResult GetUsmeById(int id)
+        [HttpGet("profile/{id}")]
+        public IActionResult GetProfileById(int id)
         {
-            var userUsme = _repositoryManager.UsersRepository.GetUsersUsme(id);
-            return Ok(userUsme);
+            var profile = _repositoryManager.UsersRepository.GetProfileById(id);
+            if (profile == null)
+            {
+                _logger.LogError("Profile object sent from client is null");
+                return BadRequest("Profile object is null");
+            }
+
+            var profileDto = new ProfileDto
+            {
+              
+                UserFullName = profile.UserFullName,
+                UsmeMembName = profile.UsmeMembName,
+                UserType = profile.UserType,
+                UserEmail = profile.UserEmail,
+                UserPhoneNumber = profile.UserPhoneNumber
+            };
+
+            return Ok(profileDto);
         }
 
         // GET api/<UsersController>/5
@@ -168,11 +202,35 @@ namespace Realta.WebAPI.Controllers
             return CreatedAtRoute("GetUsers", new { id = users.UserId }, result);
         }
 
+        //PUT changepass
+        [HttpPut("changePassword/{id}")]
+        public IActionResult ChangePass(int id, [FromBody] ChangePasswordDto changePasswordDto) 
+        {
+            if(changePasswordDto == null) 
+            {
+                _logger.LogError("ChangepassDto object sent from client is null");
+                return BadRequest("ChangepassDto object is null");
+            }
+
+            var changepass = new ChangePassword()
+            {
+                UserId = id,
+                OldPassword = changePasswordDto.OldPassword,
+                NewPassword = changePasswordDto.NewPassword,
+                ConfirmPassword = changePasswordDto.ConfirmPassword,
+                ResponseMessage = changePasswordDto.ResponseMessage
+            };
+
+            _repositoryManager.UsersRepository.ChangePassword(changepass);
+
+            return Ok(changepass);
+        }
+
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
         public IActionResult UpdateUser(int id, [FromBody] UsersDto usersDto)
         {
-            //prevent regiondto from null
+            //prevent from null
             if (usersDto == null)
             {
                 _logger.LogError("UsersDto object sent from client is null");

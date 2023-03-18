@@ -122,6 +122,10 @@ namespace Realta.Persistence.Repositories
             return item;
         }
 
+        public IEnumerable<UserBonusPoints> GetUbpoById(int ubpoId)
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<PagedList<UserBonusPoints>> GetUbpoPageList(UsersParameters usersParameters)
         {
@@ -130,8 +134,8 @@ namespace Realta.Persistence.Repositories
                 CommandText = @"SELECT ubpo_id UbpoId, ubpo_user_id UbpoUserId, ubpo_created_on UbpoCreatedOn, 
                                 ubpo_bonus_type UbpoBonusType, ubpo_total_points UbpoTotalPoints 
                                 FROM users.bonus_points WHERE ubpo_total_points BETWEEN @minPoint AND @maxPoint
-                                ORDER BY ubpo_id
-                                OFFSET @pageNo ROWS FETCH NEXT @pageSize ROWS ONLY",
+                                ORDER BY ubpo_id",
+                                //OFFSET @pageNo ROWS FETCH NEXT @pageSize ROWS ONLY",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -161,9 +165,12 @@ namespace Realta.Persistence.Repositories
             };
 
             var ubpo = await GetAllAsync<UserBonusPoints>(model);
-            var totalRow = FindAllUserBonusPoints().Count();
+            //var totalRow = FindAllUserBonusPoints().Count();
+            var pointSearch = ubpo.Where(p => p.UbpoBonusType.ToLower().Contains(usersParameters.SearchTerm.Trim().ToLower()));
 
-            return new PagedList<UserBonusPoints>(ubpo.ToList(), totalRow, usersParameters.PageNumber, usersParameters.PageSize);
+            //return new PagedList<UserBonusPoints>(pointSearch.ToList(), totalRow, usersParameters.PageNumber, usersParameters.PageSize);
+            return PagedList<UserBonusPoints>.ToPagedList(ubpo.ToList(), usersParameters.PageNumber, usersParameters.PageSize);
+            
         }
 
         public void Insert(UserBonusPoints ubpo)

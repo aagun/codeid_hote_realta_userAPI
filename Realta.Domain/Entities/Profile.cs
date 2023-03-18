@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Realta.Domain.Dto
+namespace Realta.Domain.Entities
 {
-    public class UsersJoinUsme
+    public class Profile
     {
         public string UserFullName { get; set; }
-        public string? UserType { get; set; }
-        public string? UserEmail { get; set; }
-        public string UserPhoneNumber { get; set; }
         public string UsmeMembName { get; set; }
+        public string UserType { get; set;}
+        public string UserEmail { get; set; }
+        public string UserPhoneNumber { get; set; }
     }
 }
