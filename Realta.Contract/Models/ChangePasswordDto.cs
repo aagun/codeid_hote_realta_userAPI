@@ -9,7 +9,7 @@ namespace Realta.Contract.Models
 {
     public class ChangePasswordDto
     {
-        public int UserId { get; set; }
+        
         [Required(ErrorMessage = "Old Password is required")]
         public string OldPassword { get; set; }
 

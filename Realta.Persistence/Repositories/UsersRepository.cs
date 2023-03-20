@@ -482,7 +482,7 @@ namespace Realta.Persistence.Repositories
                 }
             };
 
-            string result = _adoContext.ExecuteStoreProcedure(model, "@responseMessage", 250);
+            string result = _adoContext.ExecuteStoreProcedure(model, "@userId", 250);
             _adoContext.Dispose();
         }
 
@@ -686,7 +686,7 @@ namespace Realta.Persistence.Repositories
                 }
             };
 
-            _adoContext.ExecuteStoreProcedure(model, "@return_value", 250);
+            _adoContext.ExecuteStoreProcedure(model, "@userId", 250);
             _adoContext.Dispose();
         }
 
