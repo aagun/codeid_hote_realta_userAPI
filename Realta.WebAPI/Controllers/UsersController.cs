@@ -124,28 +124,7 @@ namespace Realta.WebAPI.Controllers
             return Ok(userUspro);
         }
 
-        [HttpGet("profile/{id}")]
-        public IActionResult GetProfileById(int id)
-        {
-            var profile = _repositoryManager.UsersRepository.GetProfileById(id);
-            if (profile == null)
-            {
-                _logger.LogError("Profile object sent from client is null");
-                return BadRequest("Profile object is null");
-            }
 
-            var profileDto = new ProfileDto
-            {
-              
-                UserFullName = profile.UserFullName,
-                UsmeMembName = profile.UsmeMembName,
-                UserType = profile.UserType,
-                UserEmail = profile.UserEmail,
-                UserPhoneNumber = profile.UserPhoneNumber
-            };
-
-            return Ok(profileDto);
-        }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}", Name = "GetUsers")]
@@ -224,6 +203,37 @@ namespace Realta.WebAPI.Controllers
             _repositoryManager.UsersRepository.ChangePassword(changepass);
 
             return Ok(changepass);
+        }
+
+        //PUT changeprofile
+        [HttpPut("updateProfile/{id}")]
+        public IActionResult UpdateProfile(int id, [FromBody] CreateProfileDto updateProfileDto)
+        {
+            if (updateProfileDto == null)
+            {
+                _logger.LogError("UpdateProfileDto object sent from client is null");
+                return BadRequest("UpdateProfileDto object is null");
+            }
+
+            var updateprofile = new CreateProfile()
+            {
+                UserId = id,
+                UserFullName = updateProfileDto.UserFullName,
+                UserType = updateProfileDto.UserType,
+                UserPhoneNumber = updateProfileDto.UserPhoneNumber,
+                UserEmail = updateProfileDto.UserEmail,
+                UserCompanyName = updateProfileDto.UserCompanyName,
+                UsproNationalId = updateProfileDto.UsproNationalId,
+                UsproBirthDate = updateProfileDto.UsproBirthDate,
+                UsproJobTitle = updateProfileDto.UsproJobTitle,
+                UsproMaritalStatus = updateProfileDto.UsproMaritalStatus,
+                UsproGender = updateProfileDto.UsproGender
+              
+            };
+
+            _repositoryManager.UsersRepository.UpdateProfile(updateprofile);
+
+            return Ok(updateprofile);
         }
 
         // PUT api/<UsersController>/5

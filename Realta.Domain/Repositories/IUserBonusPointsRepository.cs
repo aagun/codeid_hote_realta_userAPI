@@ -11,7 +11,7 @@ namespace Realta.Domain.Repositories
     public interface IUserBonusPointsRepository
     {
         IEnumerable<UserBonusPoints> FindAllUserBonusPoints();
-        IEnumerable<UserBonusPoints> GetUbpoById(int ubpoId);
+        Task<IEnumerable<UserBonusPoints>> GetAllUbpoByIdAsync(int ubpoUserId);
 
         Task<IEnumerable<UserBonusPoints>> FindAllUserBonusPointsAsync();
         Task<PagedList<UserBonusPoints>> GetUbpoPageList(UsersParameters usersParameters);

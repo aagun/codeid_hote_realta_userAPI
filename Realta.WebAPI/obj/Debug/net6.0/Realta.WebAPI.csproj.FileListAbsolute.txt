@@ -135,3 +135,4 @@ C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.WebAPI\obj\Debug\net6.0\
 C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.WebAPI\obj\Debug\net6.0\Realta.WebAPI.pdb
 C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.WebAPI\obj\Debug\net6.0\Realta.WebAPI.genruntimeconfig.cache
 C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.WebAPI\obj\Debug\net6.0\ref\Realta.WebAPI.dll
+C:\Users\E5470\source\Batch#20\MP\HotelRealtaAPI\Realta.WebAPI\bin\Debug\net6.0\System.Linq.Dynamic.Core.dll

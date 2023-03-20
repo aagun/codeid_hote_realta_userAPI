@@ -45,6 +45,7 @@ namespace Realta.WebAPI.Authentication
             return (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password));*/
             _user = _repositoryManager.UsersRepository.FindUserByEmail(userForAuth.UserEmail);
 
+            
 
             return (_user != null && _repositoryManager.UsersRepository.SignIn(userForAuth.UserEmail, userForAuth.Password));
 

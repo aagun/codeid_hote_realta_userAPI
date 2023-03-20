@@ -12,5 +12,6 @@ namespace Realta.Domain.RequestFeatures
         public uint MaxPoint { get; set; } = int.MaxValue;
         public bool ValidatePointRange => MaxPoint > MinPoint;
         public string? SearchTerm { get; set; }
+        public string OrderBy { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Realta.Domain.Repositories
         bool SignIn(string userEmail, string userPassword);
         void SignUpEmployee(CreateUser createUser);
         void SignUpGuest(CreateUser createUser);
-        string SignOut(string userName, string userPassword);
+     
         IEnumerable<Users> FindAllUsers();
 
         Task<IEnumerable<Users>> FindAllUsersAsync();
@@ -25,14 +25,14 @@ namespace Realta.Domain.Repositories
         Users FindUsersById(int usersId);
         Profile GetProfileById(int userId);
   
-        Users GetRoles(string userEmail, int roleId);
+        Roles GetRoles(string userEmail);
         void Insert(Users users);
-        //not implementation
+        
         void InsertProfile(CreateProfile createProfile);
 
         void Edit(Users users);
-        //not implementation
-        void Update(UsersJoinUspro profiles);
+        
+        void UpdateProfile(CreateProfile updateProfile);
         void ChangePassword(ChangePassword changePassword);
 
         void Remove(Users users);

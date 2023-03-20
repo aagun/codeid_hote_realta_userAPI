@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "upkraZ+LbffieBBD57EbTIpLmeGyJ/DEN/w+Skr7tE1jZTA0Rtbte1snvU5hwOgXgaZjIibq0n9vdu/tptEEsw==",
+  "dgSpecHash": "xYMeGkF/f+gI/FIJYbh4UW99GGsqh9VtWXsKakFewsqki1HJ/DA7DoIaqa6OpS+iJ8ZCCOKL8Pg5dDq7XE9Jig==",
   "success": true,
   "projectFilePath": "C:\\Users\\E5470\\source\\Batch#20\\MP\\HotelRealtaAPI\\Realta.Persistence\\Realta.Persistence.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,7 @@
     "C:\\Users\\E5470\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\E5470\\.nuget\\packages\\runtime.win-x86.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\E5470\\.nuget\\packages\\system.data.sqlclient\\4.8.5\\system.data.sqlclient.4.8.5.nupkg.sha512",
+    "C:\\Users\\E5470\\.nuget\\packages\\system.linq.dynamic.core\\1.3.1\\system.linq.dynamic.core.1.3.1.nupkg.sha512",
     "C:\\Users\\E5470\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
     "C:\\Users\\E5470\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
   ],

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -214,11 +215,25 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "SELECT user_full_name UserFullName, usme_memb_name UsmeMembName, user_type UserType, " +
-                "user_email UserEmail, user_phone_number UserPhoneNumber " +
-                "FROM users.users u " +
-                "JOIN users.user_members m ON u.user_id=m.usme_user_id " +
-                "WHERE user_id=@userId;",
+                CommandText = @"SELECT
+                USR.user_id UserId,
+                USPRO.uspro_national_id NationalId,
+                USR.user_full_name FullName,
+                USPRO.uspro_gender Gender,
+                USPRO.uspro_birth_date BirthDate,
+                USPRO.uspro_marital_status MaritalStatus,
+                USR.user_email Email,
+                USR.user_phone_number PhoneNumber,
+                USR.user_type UserType,
+                USPRO.uspro_job_title JobTitle,
+                USR.user_company_name CompanyName,
+                MSTRO.role_name RoleName
+                FROM
+                [Users].[users] USR
+                JOIN[Users].[user_profiles] USPRO ON USR.user_id = USPRO.uspro_user_id
+                JOIN[Users].[user_roles] USRO ON USR.user_id = USRO.usro_user_id
+                JOIN[Users].[roles] MSTRO ON USRO.usro_role_id = MSTRO.role_id
+                WHERE USR.user_id = @userId",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -404,7 +419,7 @@ namespace Realta.Persistence.Repositories
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "users.SpInsertProfile",
+                CommandText = "users.SpSignUpEmployee",
                 CommandType = CommandType.StoredProcedure,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -435,8 +450,7 @@ namespace Realta.Persistence.Repositories
                         DataType = DbType.String,
                         Value = createProfile.UserPhoneNumber
                     },
-                    new SqlCommandParameterModel()
-                    {
+                    new SqlCommandParameterModel() {
                         ParameterName = "@usproNationalId",
                         DataType = DbType.String,
                         Value = createProfile.UsproNationalId
@@ -464,17 +478,11 @@ namespace Realta.Persistence.Repositories
                         ParameterName = "@usproGender",
                         DataType = DbType.String,
                         Value = createProfile.UsproGender
-                    },
-                    new SqlCommandParameterModel()
-                    {
-                        ParameterName = "@usproAddrId",
-                        DataType = DbType.String,
-                        Value = createProfile.UsproAddrId
                     }
                 }
             };
 
-            _adoContext.ExecuteNonQuery(model);
+            string result = _adoContext.ExecuteStoreProcedure(model, "@responseMessage", 250);
             _adoContext.Dispose();
         }
 
@@ -528,10 +536,6 @@ namespace Realta.Persistence.Repositories
             return result == "Login Success" ? true : false;
         }
 
-        public string SignOut(string userName, string userPassword)
-        {
-            throw new NotImplementedException();
-        }
 
         public void SignUpEmployee(CreateUser createUser)
         {
@@ -607,116 +611,116 @@ namespace Realta.Persistence.Repositories
             _adoContext.Dispose();
         }
 
-        public void Update(UsersJoinUspro profiles)
+
+        public void UpdateProfile(CreateProfile updateProfile)
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "[users].[SpUpdateProfile]",
+                CommandText = "users.SpUpdateProfile",
                 CommandType = CommandType.StoredProcedure,
                 CommandParameters = new SqlCommandParameterModel[] {
-            new SqlCommandParameterModel() {
-                ParameterName = "@user_id",
-                DataType = DbType.Int32,
-                Value = profiles.UserId
-            },
-            new SqlCommandParameterModel() {
-                ParameterName = "@user_full_name",
-                DataType = DbType.String,
-                Value = profiles.UserFullName
-            },
-            new SqlCommandParameterModel()
-            {
-                ParameterName = "@user_type",
-                DataType = DbType.String,
-                Value = profiles.UserType
-            },
-            new SqlCommandParameterModel()
-            {
-                ParameterName = "@user_company_name",
-                DataType = DbType.String,
-                Value = profiles.UserCompanyName
-            },
-            new SqlCommandParameterModel()
-            {
-                ParameterName = "@user_email",
-                DataType = DbType.String,
-                Value = profiles.UserEmail
-            },
-            new SqlCommandParameterModel()
-            {
-                ParameterName = "@user_phone_number",
-                DataType = DbType.String,
-                Value = profiles.UserPhoneNumber
-            },
-            new SqlCommandParameterModel()
-            {
-                ParameterName = "@uspro_national_id",
-                DataType = DbType.String,
-                Value = profiles.UsproNationalId
-            },
-            new SqlCommandParameterModel()
-            {
-                ParameterName = "@uspro_birth_date",
-                DataType = DbType.Date,
-                Value = profiles.UsproBirthDate
-            },
-            new SqlCommandParameterModel()
-            {
-                ParameterName = "@uspro_job_title",
-                DataType = DbType.String,
-                Value = profiles.UsproJobTitle
-            },
-            new SqlCommandParameterModel()
-            {
-                ParameterName = "@uspro_marital_status",
-                DataType = DbType.String,
-                Value = profiles.UsproMaritalStatus
-            },
-            new SqlCommandParameterModel()
-            {
-                ParameterName = "@uspro_gender",
-                DataType = DbType.String,
-                Value = profiles.UsproGender
-            }
-        }
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userId",
+                        DataType = DbType.Int32,
+                        Value = updateProfile.UserId
+                    },
+                    new SqlCommandParameterModel() {
+                        ParameterName = "@userFullName",
+                        DataType = DbType.String,
+                        Value = updateProfile.UserFullName
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userType",
+                        DataType = DbType.String,
+                        Value = updateProfile.UserType
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userPhoneNumber",
+                        DataType = DbType.String,
+                        Value = updateProfile.UserPhoneNumber
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userEmail",
+                        DataType = DbType.String,
+                        Value = updateProfile.UserEmail
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@userCompanyName",
+                        DataType = DbType.String,
+                        Value = updateProfile.UserCompanyName
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproNationalId",
+                        DataType = DbType.String,
+                        Value = updateProfile.UsproNationalId
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproBirthDate",
+                        DataType = DbType.DateTime,
+                        Value = updateProfile.UsproBirthDate
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproJobTitle",
+                        DataType = DbType.String,
+                        Value = updateProfile.UsproJobTitle
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproMaritalStatus",
+                        DataType = DbType.String,
+                        Value = updateProfile.UsproMaritalStatus
+                    },
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@usproGender",
+                        DataType = DbType.String,
+                        Value = updateProfile.UsproGender
+                    }
+                }
             };
 
-            _adoContext.ExecuteNonQuery(model);
+            _adoContext.ExecuteStoreProcedure(model, "@return_value", 250);
             _adoContext.Dispose();
         }
 
-        Users IUsersRepository.GetRoles(string userEmail, int roleId)
+        Roles IUsersRepository.GetRoles(string userEmail)
         {
             SqlCommandModel model = new SqlCommandModel()
             {
-                CommandText = "SELECT user_id UserId, role_id RoleId, role_name RoleName FROM Users.users u " +
-                "JOIN Users.user_roles ur ON u.user_id = ur.usro_user_id " +
-                "JOIN Users.roles r ON ur.usro_user_id = r.role_id " +
-                "WHERE user_email = @userEmail OR role_id = @roleId; ",
+                CommandText = "SELECT " +
+                              "     ur.role_id RoleId, " +
+                              "     ur.role_name RoleName " +
+                              "FROM " +
+                              "     users.users uu " +
+                              "     JOIN users.user_roles uur ON uur.usro_user_id = uu.user_id " +
+                              "     JOIN users.roles ur ON ur.role_id = uur.usro_role_id " +
+                              "WHERE uu.user_email = @userEmail; ",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
                         ParameterName = "@userEmail",
                         DataType = DbType.String,
                         Value = userEmail
-                    },
-                    new SqlCommandParameterModel()
-                    {
-                        ParameterName = "@roleId",
-                        DataType = DbType.Int64,
-                        Value = roleId
                     }
                 }
             };
 
-            var dataSet = FindByCondition<Users>(model);
+            var dataSet = FindByCondition<Roles>(model);
 
-            Users? item = dataSet.Current ?? null;
+            var item = new Roles();
 
             while (dataSet.MoveNext())
             {
                 item = dataSet.Current;
             }
+         
             return item;
         }
     }

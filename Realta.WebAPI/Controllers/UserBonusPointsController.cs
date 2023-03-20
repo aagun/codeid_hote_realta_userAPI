@@ -41,6 +41,29 @@ namespace Realta.WebAPI.Controllers
             return Ok(ubpoDto);
         }
 
+        [HttpGet("user/{id}")]
+        public async Task<IActionResult> GetAllUbpoById(int id)
+        {
+            var ubpo = await _repositoryManager.UserBonusPointsRepository.GetAllUbpoByIdAsync(id);
+
+            if (ubpo == null)
+            {
+                _logger.LogError("Ubpo object sent from client is null");
+                return BadRequest("Record doest'n not exist");
+            }
+
+            var ubpoDto = ubpo.Select(u => new UserBonusPointsDto
+            {
+                UbpoId = u.UbpoId,
+                UbpoUserId = u.UbpoUserId,
+                UbpoTotalPoints = u.UbpoTotalPoints,
+                UbpoBonusType = u.UbpoBonusType,
+                UbpoCreatedOn = u.UbpoCreatedOn,
+            });
+
+            return Ok(ubpoDto);
+        }
+
         // Get Ubpo Pagelist
         [HttpGet("pageList")]
         public async Task<IActionResult> GetUbpoPageList([FromQuery] UsersParameters usersParameters)

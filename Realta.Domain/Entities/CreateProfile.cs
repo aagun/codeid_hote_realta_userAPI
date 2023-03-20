@@ -8,6 +8,7 @@ namespace Realta.Domain.Entities
 {
     public class CreateProfile
     {
+        public int UserId { get; set; }
         public string UserFullName { get; set; }
         public string? UserType { get; set; }
         public string? UserCompanyName { get; set; }

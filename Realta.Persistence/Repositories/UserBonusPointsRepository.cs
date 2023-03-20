@@ -2,10 +2,12 @@
 using Realta.Domain.Repositories;
 using Realta.Domain.RequestFeatures;
 using Realta.Persistence.Base;
+using Realta.Persistence.Repositories.RepositoryExtensions;
 using Realta.Persistence.RepositoryContext;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,8 +64,13 @@ namespace Realta.Persistence.Repositories
 
         public IEnumerable<UserBonusPoints> FindAllUserBonusPoints()
         {
-            IEnumerator<UserBonusPoints> dataSet = FindAll<UserBonusPoints>("SELECT ubpo_id UbpoId, ubpo_user_id UbpoUserId," +
-                "ubpo_total_points UbpoTotalPoints, ubpo_bonus_type UbpoBonusType, ubpo_created_on UbpoCreatedOn FROM users.bonus_points");
+            IEnumerator<UserBonusPoints> dataSet = FindAll<UserBonusPoints>(@"SELECT ubpo_id UbpoId, ubpo_user_id UbpoUserId, ubpo_total_points UbpoTotalPoints, ubpo_created_on UbpoCreatedOn,
+                  CASE
+                    WHEN ubpo_bonus_type = 'R' THEN 'Rating'
+                    WHEN ubpo_bonus_type = 'P' THEN 'Promote'
+                    ELSE ubpo_bonus_type
+                  END AS UbpoBonusType
+                FROM users.bonus_points; ");
 
             while (dataSet.MoveNext())
             {
@@ -100,7 +107,7 @@ namespace Realta.Persistence.Repositories
             SqlCommandModel model = new SqlCommandModel()
             {
                 CommandText = "SELECT ubpo_created_on UbpoCreatedOn, ubpo_bonus_type UbpoBonusType, ubpo_total_points UbpoTotalPoints " +
-                "FROM users.bonus_points where ubpo_user_id=@ubpoId;",
+                "FROM users.bonus_points where ubpo_id=@ubpoId;",
                 CommandType = CommandType.Text,
                 CommandParameters = new SqlCommandParameterModel[] {
                     new SqlCommandParameterModel() {
@@ -122,9 +129,34 @@ namespace Realta.Persistence.Repositories
             return item;
         }
 
-        public IEnumerable<UserBonusPoints> GetUbpoById(int ubpoId)
+
+        public async Task<IEnumerable<UserBonusPoints>> GetAllUbpoByIdAsync(int ubpoUserId)
         {
-            throw new NotImplementedException();
+            SqlCommandModel model = new SqlCommandModel()
+            {
+                CommandText = "SELECT ubpo_id UbpoId, ubpo_user_id UbpoUserId, ubpo_created_on UbpoCreatedOn, " +
+                            "ubpo_bonus_type UbpoBonusType, ubpo_total_points UbpoTotalPoints " +
+                            "FROM users.bonus_points WHERE ubpo_user_id=@ubpoUserId;",
+                CommandType = CommandType.Text,
+                CommandParameters = new SqlCommandParameterModel[]
+                {
+                    new SqlCommandParameterModel()
+                    {
+                        ParameterName = "@ubpoUserId",
+                        DataType = DbType.Int32,
+                        Value = ubpoUserId
+                    }
+                }
+            };
+            IAsyncEnumerator<UserBonusPoints> dataSet = FindAllAsync<UserBonusPoints>(model);
+            var item = new List<UserBonusPoints>();
+
+            while (await dataSet.MoveNextAsync())
+            {
+                item.Add(dataSet.Current);
+            }
+
+            return item;
         }
 
         public async Task<PagedList<UserBonusPoints>> GetUbpoPageList(UsersParameters usersParameters)
@@ -165,11 +197,11 @@ namespace Realta.Persistence.Repositories
             };
 
             var ubpo = await GetAllAsync<UserBonusPoints>(model);
-            //var totalRow = FindAllUserBonusPoints().Count();
-            var pointSearch = ubpo.Where(p => p.UbpoBonusType.ToLower().Contains(usersParameters.SearchTerm.Trim().ToLower()));
+
+            var ubpoSort = ubpo.AsQueryable().Sort(usersParameters.OrderBy);
 
             //return new PagedList<UserBonusPoints>(pointSearch.ToList(), totalRow, usersParameters.PageNumber, usersParameters.PageSize);
-            return PagedList<UserBonusPoints>.ToPagedList(ubpo.ToList(), usersParameters.PageNumber, usersParameters.PageSize);
+            return PagedList<UserBonusPoints>.ToPagedList(ubpoSort.ToList(), usersParameters.PageNumber, usersParameters.PageSize);
             
         }
 
