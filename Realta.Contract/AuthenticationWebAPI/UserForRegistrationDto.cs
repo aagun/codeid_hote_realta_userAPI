@@ -15,11 +15,15 @@ namespace Realta.Contract.AuthenticationWebAPI
         public string? UserEmail { get; set; }
         [Required(ErrorMessage = "Password is required")]
         public string? UserPassword { get; set; }
-        public string? ResponseMessage { get; set; }
-        
-        [Required]
+
+        [Required(ErrorMessage = "Confirm Password is required")]
+        [Compare(nameof(UserPassword), ErrorMessage = "Password and Confirm Password must match")]
         public string? ConfirmPassword { get; set; }
+
         [Required(ErrorMessage = "Phone Number is required")]
         public string? UserPhoneNumber { get; set; }
+        public string? ResponseMessage { get; set; }
+        
+       
     }
 }
