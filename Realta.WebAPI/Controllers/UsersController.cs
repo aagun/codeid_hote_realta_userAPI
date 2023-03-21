@@ -85,33 +85,6 @@ namespace Realta.WebAPI.Controllers
             return Ok("Guest Created");
         }
 
-        [HttpPost("profile")]
-        public async Task<IActionResult> CreateProfile([FromBody] CreateProfileDto createProfileDto)
-        {
-            if (createProfileDto == null)
-            {
-                _logger.LogError("CreateProfileDto object sent from client null");
-                return BadRequest("CreateProfileDto object is null");
-            }
-
-            var profileData = new CreateProfile()
-            {
-                UserFullName = createProfileDto.UserFullName,
-                UserType = createProfileDto.UserType,
-                UserCompanyName = createProfileDto.UserCompanyName,
-                UserEmail = createProfileDto.UserEmail,
-                UserPhoneNumber = createProfileDto.UserPhoneNumber,
-                UsproNationalId = createProfileDto.UsproNationalId,
-                UsproBirthDate = createProfileDto.UsproBirthDate,
-                UsproJobTitle = createProfileDto.UsproJobTitle,
-                UsproMaritalStatus = createProfileDto.UsproMaritalStatus,
-                UsproGender = createProfileDto.UsproGender,
-                UsproAddrId = createProfileDto.UsproAddrId
-            };
-
-            _repositoryManager.UsersRepository.InsertProfile(profileData);
-            return Ok(profileData);
-        }
 
         // GET: api/<UsersController>
         [HttpGet]

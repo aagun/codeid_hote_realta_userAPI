@@ -12,7 +12,8 @@ namespace Realta.WebAPI.Authentication
     public class AuthenticationManager : IAuthenticationManager
     {
         private readonly IConfiguration _configuration;
-        private Users _user;
+        private Users userCred;
+        private Roles userRole;
         private readonly IRepositoryManager _repositoryManager;
 
         public AuthenticationManager(IConfiguration configuration, IRepositoryManager repositoryManager)
@@ -41,41 +42,30 @@ namespace Realta.WebAPI.Authentication
 
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
-            /*_user = await _userManager.FindByNameAsync(userForAuth.UserName);
-            return (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password));*/
-            _user = _repositoryManager.UsersRepository.FindUserByEmail(userForAuth.UserEmail);
-
-            
-
-            return (_user != null && _repositoryManager.UsersRepository.SignIn(userForAuth.UserEmail, userForAuth.Password));
-
-            //throw new NotImplementedException();
+            userCred = _repositoryManager.UsersRepository.FindUserByEmail(userForAuth.UserEmail);
+            bool isSuccess = _repositoryManager.UsersRepository.SignIn(userForAuth.UserEmail, userForAuth.Password);
+            if (userCred != null && isSuccess)
+            {
+                userRole = _repositoryManager.UsersRepository.GetRoles(userForAuth.UserEmail);
+                return true;
+            }
+            return false;
         }
 
         private SigningCredentials GetSigningCredentials()
         {
-            //var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"));
+        
             var key = Encoding.UTF8.GetBytes(_configuration.GetSection("SecretKey").Value);
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
 
-        private async Task<List<Claim>> GetClaims()
+        private Task<List<Claim>> GetClaims()
         {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, _user.UserEmail)
-            };
-
-            var roles = new List<string> { "Admin" };//await _userManager.GetRolesAsync(_user);
-            
-            
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
-            return claims;
-            //throw new NotImplementedException();
+            return Task.FromResult(new List<Claim>() {
+                new Claim(ClaimTypes.Email, userCred.UserEmail),
+                new Claim(ClaimTypes.Role, userRole.RoleName)
+            });
         }
 
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)

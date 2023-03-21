@@ -13,7 +13,6 @@ namespace Realta.Contract.AuthenticationWebAPI
         public string UserEmail { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
-        
         public string Password { get; set; }
     }
 }
